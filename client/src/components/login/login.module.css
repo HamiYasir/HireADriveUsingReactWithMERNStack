@@ -1,0 +1,86 @@
+.loginPage{
+    background-image: url('../../../public/pictures/background1.jpg');
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;
+    height: 100vh;
+    width: 100vw;
+}
+
+.headerContainer{
+    display: flex;
+    justify-content: right;
+}
+
+.header{
+    border: 5px solid rgb(28, 86, 211);
+    border-radius: 20px;
+    width: 25%;
+    text-align: center;
+    padding: 25px 80px;
+    margin-top: 3%;
+    margin-right: 3%;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.mainContainer{
+    display: flex;
+    justify-content: right;
+}
+
+.mainRight{
+    border: 5px solid rgb(28, 86, 211);
+    border-radius: 20px;
+    width: 25%;
+    height: 65vh;
+    text-align: center;
+    padding: 50px 80px;
+    margin-top: 1%;
+    margin-right: 3%;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.login{
+    padding: 10px 50px;
+    background: none;
+    text-align: left;
+    width: 90%;
+    margin-top: 35%;
+}
+
+.signUpLink{
+    text-align: right;
+    padding: 10px; 
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.signUpLink:hover{
+    text-decoration: underline;
+    color: rgb(71, 97, 231);
+}
+
+.signUpLink:visited{
+    text-decoration: none;
+}
+
+.mainLeft{
+    width: 50%;
+    height: 45vh;
+    text-align: center;
+    padding: 50px 80px;
+    margin-top: 1%;
+    margin-right: 2%;
+}
+
+.mainLeft h1{
+    font-size: 100px;
+}
+
+.mainLeft p{
+    font-size: 40px;
+    margin-top: -95px;
+}

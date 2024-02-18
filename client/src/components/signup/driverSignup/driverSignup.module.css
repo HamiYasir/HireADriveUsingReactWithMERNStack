@@ -1,0 +1,37 @@
+.mainContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.main{
+    width: 90%;
+    height: 100%;
+    text-align: center;
+    padding: 50px 80px;
+    margin-top: -4.2%;
+    background-color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.driverLogin{
+   text-align: left;
+}
+
+.signUpLink{
+    text-align: right;
+    padding: 10px; 
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+.signUpLink:hover{
+    text-decoration: underline;
+    color: rgb(71, 97, 231);
+}
+
+.signUpLink:visited{
+    text-decoration: none;
+}

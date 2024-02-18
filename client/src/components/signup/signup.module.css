@@ -1,0 +1,81 @@
+.signupPage{
+    background-image: url('../../../public/pictures/background2.jpg');
+    background-repeat: no-repeat;
+    background-size: 100vw 100vh;
+    height: 100vh;
+    width: 100vw;
+}
+
+.headerContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.header{
+    border: 5px solid rgb(28, 86, 211);
+    border-radius: 20px;
+    width: 75%;
+    text-align: center;
+    padding: 25px 80px;
+    background-color: rgba(255, 255, 255, 0.5);
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.mainContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.main{
+    border: 5px solid rgb(28, 000, 211);
+    border-radius: 20px;
+    width: 75%;
+    height: 65vh;
+    text-align: center;
+    padding: 50px 80px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.buttonContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-bottom: 56px;
+}
+
+.bttn{
+    color: rgb(172, 169, 169);
+    font-size: 25px;
+    padding: 15px 30px;
+    margin-bottom: -30px;
+    background: none;
+    border: 0px;
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    width: 50%;
+}
+.bttnActive{
+    font-size: 25px;
+    padding: 15px 30px;
+    margin-bottom: -30px;
+    background: none;
+    border: 0px;
+    border-top: 0px;
+    border-right: 0px;
+    border-left: 0px;
+    width: 50%;
+    color: black;
+    font-size: 30px;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.divider{
+    height: 2px;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+
