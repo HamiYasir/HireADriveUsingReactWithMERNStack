@@ -9,14 +9,54 @@
     text-align: center;
     padding: 50px 80px;
     margin-top: -4.2%;
+    margin-right: 3%;
     background-color: rgba(255, 255, 255, 0.5);
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
-.driverLogin{
-   text-align: left;
+.forms{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.driverLoginLeft{
+    text-align: left;
+    margin-right: 75px;
+    width: 45%;
+}
+
+.profilePicture{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.profilePictureComponentLeft{
+    margin-right: 300px;
+    margin-bottom: -30px;
+}
+
+.profilePictureComponentRight{
+    margin-left: 30px;
+    margin-bottom: -30px;
+}
+
+ .driverLoginRight{
+    text-align: left;
+    margin-left: 75px;
+    width: 45%;
+ }
+
+.submitContainer{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    margin-bottom: -4%;
 }
 
 .signUpLink{

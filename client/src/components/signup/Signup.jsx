@@ -1,4 +1,4 @@
-    import React,{useState} from "react"
+import React,{useState} from "react"
 import {Box, Typography} from "@mui/material"
 import UserSignup from "./userSignup/UserSignup.jsx"
 import DriverSignup from "./driverSignup/DriverSignup.jsx"
@@ -35,7 +35,7 @@ const Signup= () => {
         </div>
 
         <div className={styles.footerContainer}>
-
+        
         </div>
     </div>
   )
