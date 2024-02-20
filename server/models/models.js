@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema({
 });
 
 const driverSchema = new mongoose.Schema({
+    profilePic:{
+        type: String
+    },
     username: {
         type: String
     },

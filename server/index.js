@@ -19,11 +19,23 @@ const connect=async()=>{
 connect()
 
 app.post("/userSignup", async(req, res)=>{
-    console.log("User Sign Up Request Received[POST].");
+    console.log("User Sign Up Request Received[POST].")
     const existingUser=await UserB.findOne({email:req.body.email})
     if(!existingUser){
         await UserB.insertMany([req.body])
+        res.json({userExists:false})
     }else{
-        res.json(existingUser)
+        res.json({userExists:true})
+    }
+})
+
+app.post("/driverSignup", async(req, res)=>{
+    console.log("Driver Sign Up Request Received[POST].");
+    const existingDriver=await Driver.findOne({email:req.body.email})
+    if(!existingDriver){
+        await Driver.insertMany([req.body])
+        res.json({driverExists:false})
+    }else{
+        res.json({driverExists:true})
     }
 })

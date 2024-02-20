@@ -50,6 +50,12 @@
     width: 45%;
  }
 
+ .textAreaAutoSize{
+    font-size: 20px;
+    border: 5px solid rgb(71, 97, 231);
+    border-radius: 10px;
+ }
+
 .submitContainer{
     margin-top: 80px;
     display: flex;
