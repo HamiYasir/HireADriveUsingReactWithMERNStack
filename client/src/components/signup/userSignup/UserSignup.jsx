@@ -80,15 +80,19 @@ const UserSignup=()=>{
           if(submit.data.userExists===true){
             alert("A user with the email "+email+" already exists.")
           }else{
-            alert("Successfully created account for "+email)
-            setProfileURL("")
-            setUsername("")
-            setEmail("")
-            setPassword("")
-            setConfirmPassword("")
-            setDateOfBirth("")
-            setDistrict("default")
-            setAddress("")
+            if(submit.data.driverExists===true){
+              alert("A driver account with the email "+email+" already exists.")
+            }else{
+              alert("Successfully created account for "+email)
+              setProfileURL("")
+              setUsername("")
+              setEmail("")
+              setPassword("")
+              setConfirmPassword("")
+              setDateOfBirth("")
+              setDistrict("default")
+              setAddress("")
+            }
           }
         }else{
           alert("Profile picture is not selected. Please select a profile picture.")

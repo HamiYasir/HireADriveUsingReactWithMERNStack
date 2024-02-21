@@ -21,11 +21,16 @@ connect()
 app.post("/userSignup", async(req, res)=>{
     console.log("User Sign Up Request Received[POST].")
     const existingUser=await UserB.findOne({email:req.body.email})
+    const existingDriver=await Driver.findOne({email:req.body.email})
     if(!existingUser){
-        await UserB.insertMany([req.body])
-        res.json({userExists:false})
+        if(!existingDriver){
+            await UserB.insertMany([req.body])
+            res.json({userExists:false, driverExists:false})
+        }else{
+            res.json({userExists:false, driverExists:true})
+        }
     }else{
-        res.json({userExists:true})
+        res.json({userExists:true, driverExists:false})
     }
 })
 
@@ -37,5 +42,28 @@ app.post("/driverSignup", async(req, res)=>{
         res.json({driverExists:false})
     }else{
         res.json({driverExists:true})
+    }
+})
+
+app.post("/login", async(req, res)=>{
+    console.log("Login Request Received[POST].")
+    const user=await UserB.findOne({email:req.body.email})
+    const driver=await Driver.findOne({email:req.body.email})
+    if(!driver){
+        if(!user){
+            res.json({doesExist:false})
+        }else{
+            if(user.password===req.body.password){
+                res.json({doesExist:true, passwordCheck:true})
+            }else{
+                res.json({doesExist:true, passwordCheck:false})
+            }
+        }
+    }else{
+        if((driver.password===req.body.password)){
+            res.json({doesExist:true, passwordCheck:true})
+        }else{
+            res.json({doesExist:true, passwordCheck:false})
+        }
     }
 })

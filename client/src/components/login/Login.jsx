@@ -1,8 +1,36 @@
-import React from "react"
+import React, {useState} from "react"
 import {Box, Typography, Stack, Input, Button} from "@mui/material"
 import styles from "./login.module.css" 
+import axios from "axios"
+import {useNavigate} from "react-router-dom"
 
 const Login=()=>{
+    const [email, setEmail]=useState("")
+    const [password, setPassword]=useState("")
+    const [error, setError]=useState(" ")
+    const navigate=useNavigate()
+
+    const handleEmail=(event)=>{
+        setEmail(event.target.value)
+    }
+
+    const handlePassword=(event)=>{
+        setPassword(event.target.value)
+    }
+
+    const login=async()=>{
+        const submit=await axios.post("http://localhost:4000/login", {email:email, password:password})
+        if(submit.data.doesExist===true){
+            if(submit.data.passwordCheck===true){
+                navigate("/home")
+            }else{
+                setError("Invalid password.")
+            }
+        }else{
+            setError("Account does not exist. Please sign up.")
+        }
+    }
+
   return (
     <div className={styles.loginPage}>
         <div className={styles.headerContainer}>
@@ -18,20 +46,20 @@ const Login=()=>{
             </Box>
             <Box className={styles.mainRight}>
                 <Stack className={styles.driverLogin}>
-                    <Input type="text" placeholder="Email" sx={{fontSize:"30px"}}/>
+                    <Input type="text" placeholder="Email" onChange={handleEmail} sx={{fontSize:"30px"}}/>
                     
                     <p><br/></p>
                     
-                    <Input type="password" placeholder="Password" sx={{fontSize:"30px"}}/>
+                    <Input type="password" placeholder="Password" onChange={handlePassword} sx={{fontSize:"30px"}}/>
                     
                     <p><br/></p>
                     <p><br/></p>
 
-                    <Button variant="contained" sx={{fontSize:"20px"}}>Login</Button>
-                    
+                    <Button variant="contained" onClick={login} sx={{fontSize:"20px"}}>Login</Button>
                     <a href="/signup" className={styles.signUpLink}>Don't own an account?Sign Up!</a>
-                    {/* <Typography>{error}</Typography> */}
                 </Stack>
+                <p><br/></p>
+                <Typography variant="h6" sx={{color:"red"}}>{error}</Typography>
             </Box>
         </div>
 
