@@ -33,10 +33,6 @@ const Signup= () => {
                 {client==="user"?<UserSignup/>:<DriverSignup/>}
             </div>
         </div>
-
-        <div className={styles.footerContainer}>
-        
-        </div>
     </div>
   )
 }

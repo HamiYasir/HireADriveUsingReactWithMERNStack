@@ -62,10 +62,6 @@ const Login=()=>{
                 <Typography variant="h6" sx={{color:"red"}}>{error}</Typography>
             </Box>
         </div>
-
-        <div className={styles.footerContainer}>
-
-        </div>
     </div>
   )
 }
