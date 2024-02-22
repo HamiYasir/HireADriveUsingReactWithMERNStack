@@ -1,9 +1,9 @@
 import React from "react"
 import {Box, Typography} from "@mui/material"
-import styles from "./header.module.css"
+import styles from "./userHeader.module.css"
 import {useNavigate} from "react-router-dom"
 
-const Header=()=>{
+const UserHeader=()=>{
   const navigate=useNavigate()
 
   const logout=()=>{
@@ -28,4 +28,4 @@ const Header=()=>{
   )
 }
 
-export default Header
+export default UserHeader

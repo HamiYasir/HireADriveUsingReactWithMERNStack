@@ -1,9 +1,9 @@
 import React,{useState, useEffect} from "react"
-import styles from "./sidebar.module.css"
+import styles from "./driverSidebar.module.css"
 import {Box, Paper, Typography} from "@mui/material"
 import axios from "axios"
 
-const Sidebar=()=>{
+const DriverSidebar=()=>{
   const [profilePic, setProfilePic]=useState("")
   const [username, setUsername]=useState("")
   const [email, setEmail]=useState("")
@@ -44,4 +44,4 @@ const Sidebar=()=>{
   )
 }
 
-export default Sidebar
+export default DriverSidebar

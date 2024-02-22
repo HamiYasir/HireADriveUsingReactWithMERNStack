@@ -87,17 +87,21 @@ const DriverSignup=()=>{
           if(submit.data.driverExists===true){
             alert("A driver with the email "+email+" already exists.")
           }else{
-            alert("Successfully created account for "+email)
-            setProfileURL("")
-            setUsername("")
-            setEmail("")
-            setPassword("")
-            setConfirmPassword("")
-            setDateOfBirth("")
-            setDistrict("default")
-            setVehicle("default")
-            setAddress("")
-            navigate("/")
+            if(submit.data.userExists===true){
+              alert("A user account with the email "+email+" already exists.")
+            }else{
+              alert("Successfully created account for "+email)
+              setProfileURL("")
+              setUsername("")
+              setEmail("")
+              setPassword("")
+              setConfirmPassword("")
+              setDateOfBirth("")
+              setDistrict("default")
+              setVehicle("default")
+              setAddress("")
+              navigate("/")
+            }
           }
         }else{
           alert("Profile picture is not selected. Please select a profile picture.")

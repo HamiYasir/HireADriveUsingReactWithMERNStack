@@ -37,11 +37,16 @@ app.post("/userSignup", async(req, res)=>{
 app.post("/driverSignup", async(req, res)=>{
     console.log("Driver Sign Up Request Received[POST].");
     const existingDriver=await Driver.findOne({email:req.body.email})
+    const existingUser=await UserB.findOne({email:req.body.email})
     if(!existingDriver){
-        await Driver.insertMany([req.body])
-        res.json({driverExists:false})
+        if(!existingUser){
+            await Driver.insertMany([req.body])
+            res.json({driverExists:false, userExists:false})
+        }else{
+            res.json({driverExists:flase, userExists:true})
+        }
     }else{
-        res.json({driverExists:true})
+        res.json({driverExists:true, userExists:false})
     }
 })
 
@@ -69,18 +74,13 @@ app.post("/login", async(req, res)=>{
 })
 
 app.get("/getDetails", async(req, res)=>{
-    console.log("Get Details Request Recieved [GET].")
+    console.log("Get Details Request Recieved [GET]."+req.query.id)
     const userDetails=await UserB.findOne({email:req.query.email}) 
     const driverDetails=await Driver.findOne({email:req.query.email})
-    if(userDetails && !driverDetails){
+    if(userDetails){
         res.json({type:"user", details:userDetails})
-        console.log("user")
-    }else if(!userDetails && driverDetails){
-        res.json({type:"driver",details:driverDetails})
-        console.log("driver")
-    }else if(userDetails && driverDetails){
-        res.json({type:"IMPOSSIBLE",details:{username:null}})
-    }else{
-        res.json({type:"Nothing fetched",details:{username:null}})
+    }
+    if(driverDetails){
+        res.json({type:"driver", details:driverDetails})
     }
 })

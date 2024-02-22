@@ -1,8 +1,19 @@
-.homePage{
+.homePageUser{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: url("../../../public/pictures/user_home_page_background.jpeg");
+    background: url("../../../public/pictures/user_home_page_background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+    /* border: 3px solid red; */
+}
+
+.homePageDriver{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: url("../../../public/pictures/driver_home_page_background.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
     height: 100vh;

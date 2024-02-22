@@ -1,6 +1,6 @@
 import React from "react"
 
-const Body=()=>{
+const UserBody=()=>{
   return(
     <div>
       User Body
@@ -8,4 +8,4 @@ const Body=()=>{
   )
 }
 
-export default Body
+export default UserBody
