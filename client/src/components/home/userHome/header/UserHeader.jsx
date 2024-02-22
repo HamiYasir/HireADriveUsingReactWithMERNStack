@@ -19,9 +19,9 @@ const UserHeader=()=>{
         </Box>
         <Box className={styles.navbar}>
           <button className={styles.buttons}>Request Driver</button>
-          <button className={styles.buttons}>Request Status</button>
+          <button className={styles.buttons}>Your Requests</button>
           <button className={styles.buttons}>Your Drivers</button>
-          <button className={styles.buttons}>Edit Profile</button>
+          <button className={styles.buttons}>Your Profile</button>
           <button onClick={logout} className={styles.buttons}>Logout</button>
         </Box>
     </Box>

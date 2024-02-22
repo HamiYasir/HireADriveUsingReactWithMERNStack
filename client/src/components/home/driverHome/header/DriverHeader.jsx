@@ -19,8 +19,8 @@ const DriverHeader=()=>{
         </Box>
         <Box className={styles.navbar}>
           <button className={styles.buttons}>Customer Requests</button>
-          <button className={styles.buttons}>Your journeys</button>
-          <button className={styles.buttons}>Edit Profile</button>
+          <button className={styles.buttons}>Your Journeys</button>
+          <button className={styles.buttons}>Your Profile</button>
           <button className={styles.buttons}>Payments</button>
           <button onClick={logout} className={styles.buttons}>Logout</button>
         </Box>
