@@ -67,3 +67,20 @@ app.post("/login", async(req, res)=>{
         }
     }
 })
+
+app.get("/getDetails", async(req, res)=>{
+    console.log("Get Details Request Recieved [GET].")
+    const userDetails=await UserB.findOne({email:req.query.email}) 
+    const driverDetails=await Driver.findOne({email:req.query.email})
+    if(userDetails && !driverDetails){
+        res.json({type:"user", details:userDetails})
+        console.log("user")
+    }else if(!userDetails && driverDetails){
+        res.json({type:"driver",details:driverDetails})
+        console.log("driver")
+    }else if(userDetails && driverDetails){
+        res.json({type:"IMPOSSIBLE",details:{username:null}})
+    }else{
+        res.json({type:"Nothing fetched",details:{username:null}})
+    }
+})

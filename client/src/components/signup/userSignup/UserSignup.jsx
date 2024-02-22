@@ -5,6 +5,7 @@ import defaultImage from "../../pictures/default_profile_pic_2.jpeg"
 import axios from "axios"
 import firebase from "firebase/compat/app"
 import "firebase/compat/storage"
+import {useNavigate} from "react-router-dom"
 
 const UserSignup=()=>{
   const [profileURL, setProfileURL]=useState("")
@@ -17,6 +18,7 @@ const UserSignup=()=>{
   const [address, setAddress]=useState("")
   const [imageURL, setImageURL]=useState(defaultImage)
   const [selectedFile, setSelectedFile]=useState(null)
+  const navigate=useNavigate()
 
   const handleImageChange=(event)=>{
     const file=event.target.files[0]
@@ -92,6 +94,7 @@ const UserSignup=()=>{
               setDateOfBirth("")
               setDistrict("default")
               setAddress("")
+              navigate("/")
             }
           }
         }else{

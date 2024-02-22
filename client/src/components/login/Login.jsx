@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, {useState, useEffect} from "react"
 import {Box, Typography, Stack, Input, Button} from "@mui/material"
 import styles from "./login.module.css" 
 import axios from "axios"
@@ -9,6 +9,13 @@ const Login=()=>{
     const [password, setPassword]=useState("")
     const [error, setError]=useState(" ")
     const navigate=useNavigate()
+
+    useEffect(()=>{
+        const currentSessionEmail=localStorage.getItem("email")
+        if(currentSessionEmail){
+            navigate("/home")
+        }
+    },[navigate])
 
     const handleEmail=(event)=>{
         setEmail(event.target.value)
@@ -22,6 +29,7 @@ const Login=()=>{
         const submit=await axios.post("http://localhost:4000/login", {email:email, password:password})
         if(submit.data.doesExist===true){
             if(submit.data.passwordCheck===true){
+                localStorage.setItem("email", email)
                 navigate("/home")
             }else{
                 setError("Invalid password.")

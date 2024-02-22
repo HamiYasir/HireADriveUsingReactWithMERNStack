@@ -5,6 +5,7 @@ import defaultImage from "../../pictures/default_profile_pic_1.jpeg"
 import axios from "axios"
 import firebase from "firebase/compat/app"
 import "firebase/compat/storage"
+import {useNavigate} from "react-router-dom"
 
 const DriverSignup=()=>{
   const [profileURL, setProfileURL]=useState("")
@@ -18,6 +19,7 @@ const DriverSignup=()=>{
   const [address, setAddress]=useState("")
   const [imageURL, setImageURL]=useState(defaultImage)
   const [selectedFile, setSelectedFile]=useState(null)
+  const navigate=useNavigate()
 
   const handleImageChange=(event)=>{
     const file=event.target.files[0];
@@ -95,6 +97,7 @@ const DriverSignup=()=>{
             setDistrict("default")
             setVehicle("default")
             setAddress("")
+            navigate("/")
           }
         }else{
           alert("Profile picture is not selected. Please select a profile picture.")

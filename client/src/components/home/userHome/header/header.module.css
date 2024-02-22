@@ -4,3 +4,29 @@
     display: flex;
     justify-content: space-evenly;
 }
+
+.navbar{
+    display: flex;
+    justify-content: center;
+    margin-right:-30px;
+}
+
+.buttons{
+    color: black;
+    margin-top: -20px;
+    margin-bottom: 20px;
+    margin-right: 3px;
+    margin-left: 3px;
+    border: 2px solid rgb(44, 44, 44);
+    border-radius: 10px;
+    width: 150px;
+    font-size: large;
+}
+
+.buttons:hover{
+    background-color: white;
+}
+
+.logo{
+    margin-right: 46%;
+}
