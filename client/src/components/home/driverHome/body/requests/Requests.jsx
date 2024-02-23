@@ -1,6 +1,6 @@
 import React from 'react'
 import {Box, Button} from "@mui/material"
-import styles from "./customerRequests.module.css"
+import styles from "./requests.module.css"
 
 const CustomerRequests=()=>{
   return (

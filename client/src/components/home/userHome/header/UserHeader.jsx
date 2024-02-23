@@ -1,9 +1,10 @@
-import React from "react"
+import React,{useState} from "react"
 import {Box, Typography} from "@mui/material"
 import styles from "./userHeader.module.css"
 import {useNavigate} from "react-router-dom"
 
-const UserHeader=()=>{
+const UserHeader=({sendTabValueToHome})=>{
+  const [tab, setTab]=useState(1)
   const navigate=useNavigate()
 
   const logout=()=>{
@@ -18,10 +19,10 @@ const UserHeader=()=>{
           <Typography variant="h6" sx={{fontSize:"20px", marginTop:"-30px", fontFamily:"impact"}}>Hire A Drive</Typography>
         </Box>
         <Box className={styles.navbar}>
-          <button className={styles.buttons}>Request Driver</button>
-          <button className={styles.buttons}>Your Requests</button>
-          <button className={styles.buttons}>Your Drivers</button>
-          <button className={styles.buttons}>Your Profile</button>
+          {tab===1?<button onClick={()=>{sendTabValueToHome(1);setTab(1)}} className={styles.buttonsActive}>Request Driver</button>:<button onClick={()=>{sendTabValueToHome(1);setTab(1)}} className={styles.buttons}>Request Driver</button>}
+          {tab===2?<button onClick={()=>{sendTabValueToHome(2);setTab(2)}} className={styles.buttonsActive}>Your Requests</button>:<button onClick={()=>{sendTabValueToHome(2);setTab(2)}} className={styles.buttons}>Your Requests</button>}
+          {tab===3?<button onClick={()=>{sendTabValueToHome(3);setTab(3)}} className={styles.buttonsActive}>Your Drivers</button>:<button onClick={()=>{sendTabValueToHome(3);setTab(3)}} className={styles.buttons}>Your Drivers</button>}
+          {tab===4?<button onClick={()=>{sendTabValueToHome(4);setTab(4)}} className={styles.buttonsActive}>Your Profile</button>:<button onClick={()=>{sendTabValueToHome(4);setTab(4)}} className={styles.buttons}>Your Profile</button>}
           <button onClick={logout} className={styles.buttons}>Logout</button>
         </Box>
     </Box>
