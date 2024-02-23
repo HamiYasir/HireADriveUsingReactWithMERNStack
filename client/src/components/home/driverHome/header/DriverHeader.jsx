@@ -18,7 +18,7 @@ const DriverHeader=()=>{
           <Typography variant="h6" sx={{fontSize:"20px", marginTop:"-30px", fontFamily:"impact"}}>Hire A Drive</Typography>
         </Box>
         <Box className={styles.navbar}>
-          <button className={styles.buttons}>Customer Requests</button>
+          <button className={styles.buttons}>Requests</button>
           <button className={styles.buttons}>Your Journeys</button>
           <button className={styles.buttons}>Your Profile</button>
           <button className={styles.buttons}>Payments</button>

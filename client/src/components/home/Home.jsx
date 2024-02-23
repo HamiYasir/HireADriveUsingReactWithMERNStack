@@ -6,6 +6,8 @@ import RequestDriver from "./userHome/body/requestDriver/RequestDriver.jsx"
 
 import DriverHeader from "./driverHome/header/DriverHeader.jsx"
 import DriverSidebar from "./driverHome/sidebar/DriverSidebar.jsx"
+import CustomerRequests from "./driverHome/body/customerRequests/CustomerRequests.jsx"
+
 import axios from "axios"
 import { useState } from "react"
 
@@ -15,7 +17,7 @@ const Home=()=>{
 
   useEffect(()=>{
     const getHomePageMode=async()=>{
-      const details=await axios.get("http://localhost:4000/getDetails",{params:{email:email, id:"hello"}})
+      const details=await axios.get("http://localhost:4000/getDetails",{params:{email:email}})
       console.log("getHomePagemode triggered")
       console.log(details.data.type)
       setHomePageMode(details.data.type)
@@ -58,7 +60,7 @@ const Home=()=>{
         </div>
 
         <div className={styles.bodyContainer}>
-
+          <CustomerRequests/>
         </div>
       </div>
 

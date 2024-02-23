@@ -74,7 +74,7 @@ app.post("/login", async(req, res)=>{
 })
 
 app.get("/getDetails", async(req, res)=>{
-    console.log("Get Details Request Recieved [GET]."+req.query.id)
+    console.log("Get Details Request Recieved [GET].")
     const userDetails=await UserB.findOne({email:req.query.email}) 
     const driverDetails=await Driver.findOne({email:req.query.email})
     if(userDetails){
