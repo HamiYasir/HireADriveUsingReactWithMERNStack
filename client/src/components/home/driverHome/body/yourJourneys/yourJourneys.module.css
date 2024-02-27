@@ -1,0 +1,45 @@
+.yourJourneys{
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    background-color: rgba(225,225,225,0.5);
+    width: 100%;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    overflow-y: scroll;
+    scrollbar-color:  #2C84D1 transparent;
+    scroll-behavior: smooth;
+}
+
+.yourJourneys ul{
+    width: 80%;
+    height: 30%;
+    list-style-type: none;
+}
+
+.yourJourneys li{
+    background-color: white;
+    height: 30%;
+    width: 100%;
+    margin: 10px;
+    font-size: 25px;
+    padding: 20px 50px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+} 
+
+.details{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    align-items: center;
+    width: 70%;
+    margin-right: -10%;
+}
+
+.details p{
+    font-size: small;
+}

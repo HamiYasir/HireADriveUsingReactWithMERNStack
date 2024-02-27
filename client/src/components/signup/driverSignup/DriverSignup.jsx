@@ -165,7 +165,7 @@ const DriverSignup=()=>{
 
             <InputLabel>District</InputLabel>
             <Select value={district} onChange={handleDistrict}>
-            <MenuItem value="default" sx={{display:"none"}}>Select your District</MenuItem>
+              <MenuItem value="default" sx={{display:"none"}}>Select your District</MenuItem>
               <MenuItem value="Thiruvananthapuram">Thiruvananthapuram</MenuItem>
               <MenuItem value="Kollam">Kollam</MenuItem>
               <MenuItem value="Pathanamthitta">Pathanamthitta</MenuItem>

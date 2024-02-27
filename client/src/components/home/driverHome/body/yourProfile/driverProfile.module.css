@@ -1,0 +1,41 @@
+.driverProfile{
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    background-color: rgba(225,225,225,0.5);
+    width: 100%;
+    margin: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    overflow-y: scroll;
+    scrollbar-color:  #2C84D1 transparent;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+}
+
+.rowContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    height: 100%;
+    width: 200%;
+    align-items: center;
+}
+
+.overview{
+    scroll-snap-align: start;
+    height: 95%;
+    width: 50%;
+    border-radius: 20px;
+    margin-right: -2%;
+    margin-left: 0%;
+}
+
+.editables{
+    scroll-snap-align: end;
+    height: 95%;
+    width: 50%;
+    border-radius: 20px;    
+    margin-right: -10%;
+    margin-left: 6%;
+}

@@ -1,6 +1,7 @@
 import React from "react"
 import {Box, Stack, InputLabel, Select, MenuItem, Paper, Typography} from "@mui/material"
 import styles from "./yourRequests.module.css"
+import image from "../../../../pictures/abhinand_t.jpg"
 
 const YourRequests=()=>{
   return(
@@ -16,8 +17,8 @@ const YourRequests=()=>{
           <p></p>
           <Paper className={styles.paper}>
               <div className={styles.row1}>
-                <img src="" alt="driver profile pic" style={{height:"100px", width:"100px", borderRadius:"50px"}}/>
-                <Typography variant="h6">Driver Name</Typography>
+                <img src={image} alt="driver profile pic" style={{height:"150px",width:"150px",borderRadius:"50%"}}/>
+                <Typography variant="h6" sx={{paddingTop:"5%"}}>Driver Name</Typography>
               </div>
               <div className={styles.row2}>
                 <a href="/" className={styles.star}>&#9734;<a href="/" className={styles.star}>&#9734;<a href="/" className={styles.star}>&#9734;<a href="/" className={styles.star}>&#9734;<a href="/" className={styles.star}>&#9734;</a></a></a></a></a>
