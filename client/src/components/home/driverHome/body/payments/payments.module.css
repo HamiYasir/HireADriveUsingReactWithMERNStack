@@ -1,0 +1,10 @@
+.payments{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    background-color: rgba(225,225,225,0.5);
+
+    width: 100%;
+    margin: 20px;
+}

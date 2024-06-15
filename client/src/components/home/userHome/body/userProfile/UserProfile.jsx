@@ -10,7 +10,7 @@ const UserProfile=()=>{
         <Stack className={styles.overview}>
           <div style={{display:"flex",flexDirection:"row",height:"90%",paddingTop:"2%"}}>
             <Paper sx={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"center",height:"100%",width:"33.3%",padding:"10px 20px",marginRight:"5px",borderRadius:"20px",boxShadow:"2px 2px 10px black"}}>
-              <img src={image} alt="profile pic" style={{maxHeight:"75%",maxWidth:"75%",borderRadius:"50%",paddingTop:"20px",marginBottom:"5%"}}/>
+              <img src={image} alt="profile pic" style={{maxHeight:"75%",maxWidth:"75%",borderRadius:"50%",marginBottom:"5%",border:"2px ridge black"}}/>
               <div style={{backgroundColor:"rgb(200,200,200)",borderRadius:"20px",boxShadow:"2px 2px 5px black"}}>
                 <p style={{color:"gold",fontSize:"75px",marginTop:"-5%",marginBottom:"15px"}}>&#9734;&#9734;&#9734;&#9734;&#9734;</p>
               </div>
@@ -33,7 +33,7 @@ const UserProfile=()=>{
               <Button variant="contained" color="success" sx={{width:"22%", marginLeft:"75%"}}>Change Password</Button>
             </Box>
             <Box className={styles.addressContainer}>
-              <Typography variant="h6" sx={{padding:"0 5%",marginBottom:"3%", marginRight:"65%"}}>Change Region&Address:</Typography>
+              <Typography variant="h6" sx={{padding:"0 5%",marginBottom:"3%", marginRight:"65%"}}>Change Region & Address:</Typography>
               <InputLabel htmlfor="region" sx={{marginRight:"50%", fontSize:"20px"}}>Region:</InputLabel>
               <Select id="region" className={styles.region}>
                   <MenuItem value="Thiruvananthapuram">Thiruvananthapuram</MenuItem>
@@ -61,36 +61,6 @@ const UserProfile=()=>{
         </Stack>
       </Box>
     </Box>
-
-
-    // <div className={styles.parent}>
-    //   <div className={styles.child}>
-    //     <p>Item 1</p>
-    //     <p>Item 2</p>
-    //     <p>Item 3</p>
-    //     <p>Item 4</p>
-    //     <p>Item 5</p>
-    //     <p>Item 6</p>
-    //   </div>
-
-    //   <div className={styles.child}>
-    //     <p>Item 1</p>
-    //     <p>Item 2</p>
-    //     <p>Item 3</p>
-    //     <p>Item 4</p>
-    //     <p>Item 5</p>
-    //     <p>Item 6</p>
-    //   </div>
-      
-    //   <div className={styles.child}>
-    //     <p>Item 1</p>
-    //     <p>Item 2</p>
-    //     <p>Item 3</p>
-    //     <p>Item 4</p>
-    //     <p>Item 5</p>
-    //     <p>Item 6</p>
-    //   </div>
-    // </div>
   )
 }
 

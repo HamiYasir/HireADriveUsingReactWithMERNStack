@@ -1,10 +1,12 @@
 import React from "react"
+import {Box} from "@mui/material"
+import styles from "./payments.module.css"
 
 const Payments=()=>{
   return(
-    <div>
-      Payments
-    </div>
+    <Box class={styles.payments}>
+
+    </Box>
   )
 }
 
