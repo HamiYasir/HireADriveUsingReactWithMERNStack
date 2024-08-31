@@ -22,7 +22,6 @@ const DriverHeader=({sendTabValueToHome})=>{
           {tab===1?<button onClick={()=>{sendTabValueToHome(1);setTab(1)}} className={styles.buttonsActive}>Requests</button>:<button onClick={()=>{sendTabValueToHome(1);setTab(1)}} className={styles.buttons}>Requests</button>}
           {tab===2?<button onClick={()=>{sendTabValueToHome(2);setTab(2)}} className={styles.buttonsActive}>Your Journeys</button>:<button onClick={()=>{sendTabValueToHome(2);setTab(2)}} className={styles.buttons}>Your Journeys</button>}
           {tab===3?<button onClick={()=>{sendTabValueToHome(3);setTab(3)}} className={styles.buttonsActive}>Your Profile</button>:<button onClick={()=>{sendTabValueToHome(3);setTab(3)}} className={styles.buttons}>Your Profile</button>}
-          {tab===4?<button onClick={()=>{sendTabValueToHome(4);setTab(4)}} className={styles.buttonsActive}>Payments</button>:<button onClick={()=>{sendTabValueToHome(4);setTab(4)}} className={styles.buttons}>Payments</button>}
           <button onClick={logout} className={styles.buttons}>Logout</button>
         </Box>
     </Box>

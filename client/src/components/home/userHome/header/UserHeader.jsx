@@ -23,6 +23,7 @@ const UserHeader=({sendTabValueToHome})=>{
           {tab===2?<button onClick={()=>{sendTabValueToHome(2);setTab(2)}} className={styles.buttonsActive}>Your Requests</button>:<button onClick={()=>{sendTabValueToHome(2);setTab(2)}} className={styles.buttons}>Your Requests</button>}
           {tab===3?<button onClick={()=>{sendTabValueToHome(3);setTab(3)}} className={styles.buttonsActive}>Your Drivers</button>:<button onClick={()=>{sendTabValueToHome(3);setTab(3)}} className={styles.buttons}>Your Drivers</button>}
           {tab===4?<button onClick={()=>{sendTabValueToHome(4);setTab(4)}} className={styles.buttonsActive}>Your Profile</button>:<button onClick={()=>{sendTabValueToHome(4);setTab(4)}} className={styles.buttons}>Your Profile</button>}
+          {tab===5?<button onClick={()=>{sendTabValueToHome(5);setTab(5)}} className={styles.buttonsActive}>Payments</button>:<button onClick={()=>{sendTabValueToHome(5);setTab(5)}} className={styles.buttons}>Payments</button>}
           <button onClick={logout} className={styles.buttons}>Logout</button>
         </Box>
     </Box>

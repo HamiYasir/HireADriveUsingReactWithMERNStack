@@ -8,14 +8,13 @@ import RequestDriver from "./userHome/body/requestDriver/RequestDriver.jsx"
 import YourRequests from "./userHome/body/yourRequests/YourRequests.jsx"
 import YourDrivers from "./userHome/body/yourDrivers/YourDrivers.jsx"
 import UserProfile from "./userHome/body/userProfile/UserProfile.jsx"
+import UserPayments from "./userHome/body/userPayments/UserPayments.jsx"
 
 import DriverHeader from "./driverHome/header/DriverHeader.jsx"
 import DriverSidebar from "./driverHome/sidebar/DriverSidebar.jsx"
 import Requests from "./driverHome/body/requests/Requests.jsx"
 import YourJourneys from "./driverHome/body/yourJourneys/YourJourneys.jsx"
 import DriverProfile from "./driverHome/body/yourProfile/DriverProfile.jsx"
-import Payments from "./driverHome/body/payments/Payments.jsx"
-
 
 const Home=()=>{
   const [email, setEmail]=useState("")
@@ -58,6 +57,8 @@ const Home=()=>{
             <YourDrivers/>
           :tab===4?
             <UserProfile/>
+          :tab===5?
+            <UserPayments/>
           :
             setTab(1)
           } 
@@ -86,8 +87,6 @@ const Home=()=>{
             <YourJourneys/>
           :tab===3?
             <DriverProfile/>
-          :tab===4?
-            <Payments/>
           :
             setTab(1)
           }
