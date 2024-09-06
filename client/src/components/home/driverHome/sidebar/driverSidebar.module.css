@@ -27,12 +27,14 @@
     font-size: 50px;
 }
 
-.dateOfBirth{
+.currentDateAndTime{
     margin: 5%;
     background-color: rgba(225, 225, 225, 0.5);
     border-radius: 20px;
     height: 5%;
     padding: 2%;
+    text-align: center;
+    font-size: 45px;
 }
 
 .address{

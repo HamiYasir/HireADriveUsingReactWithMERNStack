@@ -15,14 +15,14 @@ const DriverSignup=()=>{
   const [confirmPassword, setConfirmPassword]=useState("")
   const [dateOfBirth, setDateOfBirth]=useState("")
   const [district, setDistrict]=useState("default")
-  const [vehicle, setVehicle]=useState("default")
+  // const [vehicle, setVehicle]=useState("default")
   const [address, setAddress]=useState("")
   const [imageURL, setImageURL]=useState(defaultImage)
   const [selectedFile, setSelectedFile]=useState(null)
   const navigate=useNavigate()
 
   const handleImageChange=(event)=>{
-    const file=event.target.files[0];
+    const file=event.target.files[0]
     setSelectedFile(file)
     if(file){
       const reader=new FileReader()
@@ -40,10 +40,17 @@ const DriverSignup=()=>{
 
       await fileRef.put(selectedFile)
       const downloadURL=await fileRef.getDownloadURL()
-      setProfileURL(downloadURL)   
+      setProfileURL(downloadURL)
+      return downloadURL
     }else{
       alert("No profile picture selected. Please select a profile picture.")
+      return null
     }
+  }
+
+  const getCurrentDate=()=>{
+    const today=new Date();
+    return today.toISOString().split("T")[0]
   }
 
   const handleUsername=(event)=>{
@@ -70,20 +77,17 @@ const DriverSignup=()=>{
     setDistrict(event.target.value)
   }
 
-  const handleVehicle=(event)=>{
-    setVehicle(event.target.value)
-  }
-
   const handleAddress=(event)=>{
     setAddress(event.target.value)
   }
 
   const signup=async()=>{
-    if(username!=="" && email!=="" && password!=="" && confirmPassword!=="" && dateOfBirth!=="" && district!=="default" && vehicle!=="default" && address!==""){
+    if(username!=="" && email!=="" && password!=="" && confirmPassword!=="" && dateOfBirth!=="" && district!=="default" && address!==""){
       if(password===confirmPassword){
-        uploadImageAndDownloadURL()
-        if(profileURL!==""){
-          const submit=await axios.post("http://localhost:4000/driverSignup", {profilePic:profileURL, username:username, email:email, password:password, dateOfBirth:dateOfBirth, district:district, address:address})
+        const downloadURL=await uploadImageAndDownloadURL()
+        if(downloadURL){
+          const dateOfJoining=getCurrentDate()
+          const submit=await axios.post("http://localhost:4000/driverSignup", {profilePic:downloadURL, username:username, email:email, password:password, dateOfBirth:dateOfBirth, dateOfJoining:dateOfJoining, district:district, address:address})
           if(submit.data.driverExists===true){
             alert("A driver with the email "+email+" already exists.")
           }else{
@@ -98,7 +102,7 @@ const DriverSignup=()=>{
               setConfirmPassword("")
               setDateOfBirth("")
               setDistrict("default")
-              setVehicle("default")
+              // setVehicle("default")
               setAddress("")
               navigate("/")
             }
@@ -186,7 +190,7 @@ const DriverSignup=()=>{
               <br/>
             </p>
 
-            <InputLabel>Vehicle Type</InputLabel>
+            {/* <InputLabel>Vehicle Type</InputLabel>
             <Select value={vehicle} onChange={handleVehicle}>
               <MenuItem value="default" sx={{display:"none"}}>Select your Vehicle Type</MenuItem>
               <MenuItem value="2-Seater Bike">2-Seater Bike</MenuItem>
@@ -197,13 +201,13 @@ const DriverSignup=()=>{
               <MenuItem value="7-Seater">7-Seater</MenuItem>
               <MenuItem value="7-Seater Luxury">7-Seater Luxury</MenuItem>
               <MenuItem value="8-Seater Van">8-Seater Van</MenuItem>
-            </Select>
+            </Select> 
 
             <p>
               <br/>
-            </p>
+            </p>*/}
 
-            <TextareaAutosize placeholder="Address" value={address} minRows={3} onChange={handleAddress} className={styles.textAreaAutoSize}/>
+            <TextareaAutosize placeholder="Address" value={address} minRows={5} onChange={handleAddress} className={styles.textAreaAutoSize}/>
           </Stack>
         </Box>
 

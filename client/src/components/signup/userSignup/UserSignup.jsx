@@ -40,9 +40,15 @@ const UserSignup=()=>{
       await fileRef.put(selectedFile)
       const downloadURL=await fileRef.getDownloadURL()
       setProfileURL(downloadURL)   
+      return downloadURL
     }else{
       alert("No profile picture selected. Please select a profile picture.")
     }
+  }
+
+  const getCurrentDate=()=>{
+    const today=new Date();
+    return today.toISOString().split("T")[0]
   }
 
   const handleUsername=(event)=>{
@@ -76,9 +82,10 @@ const UserSignup=()=>{
   const signup=async()=>{
     if(username!=="" && email!=="" && password!=="" && confirmPassword!=="" && dateOfBirth!=="" && district!=="" && address!==""){
       if (password===confirmPassword){
-        uploadImageAndDownloadURL()
-        if(profileURL!==""){
-          const submit=await axios.post("http://localhost:4000/userSignup", {profilePic:profileURL, username:username, email:email, password:password, dateOfBirth:dateOfBirth, district:district, address:address})
+        const downloadURL=await uploadImageAndDownloadURL()
+        if(downloadURL){
+          const dateOfJoining=getCurrentDate()
+          const submit=await axios.post("http://localhost:4000/userSignup", {profilePic:downloadURL, username:username, email:email, password:password, dateOfBirth:dateOfBirth, dateOfJoining:dateOfJoining, district:district, address:address})
           if(submit.data.userExists===true){
             alert("A user with the email "+email+" already exists.")
           }else{

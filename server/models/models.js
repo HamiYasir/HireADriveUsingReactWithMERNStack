@@ -16,10 +16,17 @@ const userSchema = new mongoose.Schema({
     dateOfBirth: {
         type: Date
     },
+    dateOfJoining: {
+        type: Date
+    },
     district: {
         type: String
     },
     address: {
+        type: String
+    },
+    vehicleType:
+    {
         type: String
     }
 });
@@ -40,6 +47,9 @@ const driverSchema = new mongoose.Schema({
     dateOfBirth: {
         type: Date
     },
+    dateOfJoining: {
+        type: Date
+    },
     district: {
         type: String
     },
@@ -48,6 +58,9 @@ const driverSchema = new mongoose.Schema({
     },
     address: {
         type: String
+    },
+    rating: {
+        type: Number
     }
 });
 

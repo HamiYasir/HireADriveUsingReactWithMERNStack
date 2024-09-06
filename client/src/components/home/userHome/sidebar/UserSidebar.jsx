@@ -7,20 +7,46 @@ const UserSidebar=()=>{
   const [profilePic, setProfilePic]=useState("")
   const [username, setUsername]=useState("")
   const [email, setEmail]=useState("")
-  const [dateOfBirth, setDateOfBirth]=useState("")
+  const [today, setToday]=useState(null)
   const [address, setAddress]=useState("")
 
   useEffect(()=>{
     setEmail(localStorage.getItem("email"))
     getSessionDetails()
+    const fetchDate=()=>{
+      const date = getToday()
+      setToday(date);
+    }
+
+    // Fetch initial date and start interval for updates
+    fetchDate()
+    const intervalId = setInterval(fetchDate, 5000) // Update every minute
+    return () => clearInterval(intervalId) // Clear interval on component unmount
   },[])
 
   const getSessionDetails=async()=>{
     const sessionDetails=await axios.get("http://localhost:4000/getDetails", {params:{email:localStorage.getItem("email")}})
     setProfilePic(sessionDetails.data.details.profilePic)
     setUsername(sessionDetails.data.details.username)
-    setDateOfBirth(sessionDetails.data.details.dateOfBirth)
     setAddress(sessionDetails.data.details.address)
+  }
+
+  const getToday=()=>{
+    const today=new Date()
+    let hour=today.getHours()
+    const isPM = hour >= 12;
+
+    // Convert hour to 12-hour format
+    hour=hour%12 || 12; // Convert 0 to 12 for midnight
+
+    return{
+      day: String(today.getDate()).padStart(2, '0'),
+      month: String(today.getMonth()+1).padStart(2, '0'),
+      year: today.getFullYear(),
+      minute: String(today.getMinutes()).padStart(2, '0'),
+      hour: String(hour).padStart(2, '0'),
+      period: isPM ? 'PM' : 'AM'
+    }
   }
 
   return(
@@ -34,7 +60,7 @@ const UserSidebar=()=>{
           <img src={profilePic} alt="user profile pic" style={{height:"100px", width:"100px", borderRadius:"50px", border:"3px solid black"}}/>
         </Box>
         
-        <Box className={styles.dateOfBirth}>{dateOfBirth}</Box>
+        <Box className={styles.currentDateAndTime}>{today?(<span>{today.day}-{today.month}-{today.year}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{today.hour}:{today.minute} {today.period}</span>):(<span>Loading date...</span>)}</Box>
 
         <Box className={styles.address}>{address}</Box>
 

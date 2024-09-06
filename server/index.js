@@ -35,7 +35,7 @@ app.post("/userSignup", async(req, res)=>{
 })
 
 app.post("/driverSignup", async(req, res)=>{
-    console.log("Driver Sign Up Request Received[POST].");
+    console.log("Driver Sign Up Request Received[POST].")
     const existingDriver=await Driver.findOne({email:req.body.email})
     const existingUser=await UserB.findOne({email:req.body.email})
     if(!existingDriver){
@@ -43,7 +43,7 @@ app.post("/driverSignup", async(req, res)=>{
             await Driver.insertMany([req.body])
             res.json({driverExists:false, userExists:false})
         }else{
-            res.json({driverExists:flase, userExists:true})
+            res.json({driverExists:false, userExists:true})
         }
     }else{
         res.json({driverExists:true, userExists:false})
@@ -79,8 +79,24 @@ app.get("/getDetails", async(req, res)=>{
     const driverDetails=await Driver.findOne({email:req.query.email})
     if(userDetails){
         res.json({type:"user", details:userDetails})
+        console.log("user triggered.")
     }
     if(driverDetails){
         res.json({type:"driver", details:driverDetails})
+        console.log("driver triggered.")
     }
+})
+
+app.put("/editDriver/:email", async(req, res)=>{
+    console.log("Edit Request Recieved [PUT].")
+    const detail=await Driver.findOneAndUpdate({email:req.params.email}, req.body)
+    console.log("Updated details of driver.[PUT]")
+    res.json({edited:'true'})
+})
+
+app.put("/editUser/:email", async(req, res)=>{
+    console.log("Edit Request Recieved [PUT].")
+    const detail=await UserB.findOneAndUpdate({email:req.params.email}, req.body)
+    console.log("Updated details of user.[PUT]")
+    res.json({edited:'true'})
 })
