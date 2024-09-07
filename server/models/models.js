@@ -64,8 +64,30 @@ const driverSchema = new mongoose.Schema({
     }
 });
 
+const userRequestsSchema = new mongoose.Schema({
+    userId: {
+        type: String
+    },
+    driverId: {
+        type: String
+    },
+    startingLocation: {
+        type: String
+    },
+    destination: {
+        type: String
+    },
+    vehicle: {
+        type: String
+    },
+    driver: {
+        type: String
+    }
+});
+
 const UserB = mongoose.model('UserB', userSchema);
 const Driver = mongoose.model('Driver', driverSchema);
+const UserRequests = mongoose.model('UserRequests', userRequestsSchema)
 
-module.exports = { UserB, Driver };
+module.exports = { UserB, Driver, UserRequests };
 

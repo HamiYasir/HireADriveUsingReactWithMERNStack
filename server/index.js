@@ -1,7 +1,7 @@
 const express=require('express')
 const cors=require('cors')
 const mongoose=require('mongoose')
-const {UserB, Driver}=require('./models/models')
+const {UserB, Driver, UserRequests}=require('./models/models')
 
 const app=express()
 app.use(express.json())
@@ -71,6 +71,12 @@ app.post("/login", async(req, res)=>{
             res.json({doesExist:true, passwordCheck:false})
         }
     }
+})
+
+app.post("/submitUserRequest", async(req, res)=>{
+    console.log("Submit User Request Recieved [POST].")
+    await UserRequests.insertMany([req.body])
+    res.json({submitted:true})
 })
 
 app.get("/getDetails", async(req, res)=>{
