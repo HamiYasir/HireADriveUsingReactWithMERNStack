@@ -24,10 +24,6 @@ const userSchema = new mongoose.Schema({
     },
     address: {
         type: String
-    },
-    vehicleType:
-    {
-        type: String
     }
 });
 
@@ -65,6 +61,9 @@ const driverSchema = new mongoose.Schema({
 });
 
 const userRequestsSchema = new mongoose.Schema({
+    requestId: {
+        type: Number,
+    },
     userId: {
         type: String
     },

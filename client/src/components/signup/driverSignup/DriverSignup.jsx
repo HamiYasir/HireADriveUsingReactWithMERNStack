@@ -15,7 +15,7 @@ const DriverSignup=()=>{
   const [confirmPassword, setConfirmPassword]=useState("")
   const [dateOfBirth, setDateOfBirth]=useState("")
   const [district, setDistrict]=useState("default")
-  // const [vehicle, setVehicle]=useState("default")
+  const [vehicle, setVehicle]=useState("default")
   const [address, setAddress]=useState("")
   const [imageURL, setImageURL]=useState(defaultImage)
   const [selectedFile, setSelectedFile]=useState(null)
@@ -77,6 +77,10 @@ const DriverSignup=()=>{
     setDistrict(event.target.value)
   }
 
+  const handleVehicle=(event)=>{
+    setVehicle(event.target.value)
+  }
+
   const handleAddress=(event)=>{
     setAddress(event.target.value)
   }
@@ -87,7 +91,7 @@ const DriverSignup=()=>{
         const downloadURL=await uploadImageAndDownloadURL()
         if(downloadURL){
           const dateOfJoining=getCurrentDate()
-          const submit=await axios.post("http://localhost:4000/driverSignup", {profilePic:downloadURL, username:username, email:email, password:password, dateOfBirth:dateOfBirth, dateOfJoining:dateOfJoining, district:district, address:address})
+          const submit=await axios.post("http://localhost:4000/driverSignup", {profilePic:downloadURL, username:username, email:email, password:password, dateOfBirth:dateOfBirth, dateOfJoining:dateOfJoining, district:district, vehicle:vehicle, address:address})
           if(submit.data.driverExists===true){
             alert("A driver with the email "+email+" already exists.")
           }else{
@@ -102,7 +106,7 @@ const DriverSignup=()=>{
               setConfirmPassword("")
               setDateOfBirth("")
               setDistrict("default")
-              // setVehicle("default")
+              setVehicle("default")
               setAddress("")
               navigate("/")
             }
@@ -190,7 +194,7 @@ const DriverSignup=()=>{
               <br/>
             </p>
 
-            {/* <InputLabel>Vehicle Type</InputLabel>
+            <InputLabel>Vehicle Type</InputLabel>
             <Select value={vehicle} onChange={handleVehicle}>
               <MenuItem value="default" sx={{display:"none"}}>Select your Vehicle Type</MenuItem>
               <MenuItem value="2-Seater Bike">2-Seater Bike</MenuItem>
@@ -205,7 +209,7 @@ const DriverSignup=()=>{
 
             <p>
               <br/>
-            </p>*/}
+            </p>
 
             <TextareaAutosize placeholder="Address" value={address} minRows={5} onChange={handleAddress} className={styles.textAreaAutoSize}/>
           </Stack>
