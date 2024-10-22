@@ -67,7 +67,13 @@ const userRequestsSchema = new mongoose.Schema({
     userId: {
         type: String
     },
+    username: {
+        type: String
+    },
     driverId: {
+        type: String
+    },
+    driver: {
         type: String
     },
     startingLocation: {
@@ -77,9 +83,6 @@ const userRequestsSchema = new mongoose.Schema({
         type: String
     },
     vehicle: {
-        type: String
-    },
-    driver: {
         type: String
     }
 });

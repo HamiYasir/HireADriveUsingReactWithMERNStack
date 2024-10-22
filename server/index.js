@@ -12,12 +12,8 @@ app.listen(4000, ()=>{
 })
 
 const connect=async()=>{
-    try{    
-        await mongoose.connect("mongodb+srv://HamiYasir:hamihami@hamicluster01.e8thkdr.mongodb.net/?retryWrites=true&w=majority")
-        console.log("Database connected.")
-    }catch(error){
-        console.log("Database connected error: ", error)
-    }
+    await mongoose.connect("mongodb+srv://HamiYasir:hamihami@hamicluster01.e8thkdr.mongodb.net/?retryWrites=true&w=majority")
+    console.log("Database connected.")
 }
 
 connect()
@@ -47,8 +43,9 @@ app.get('/getRequestCount', async (req, res) => {
 //Used to get details from userRequests table for drivers
 app.get("/getUserRequests", async(req, res)=>{
     console.log("Get Details Request Recieved [GET].")
-    const userRequest=await UserRequests.find({startingLocation:req.query.location})
-    console.log({userRequest})
+    const userRequests=await UserRequests.find({startingLocation:req.query.location})
+    console.log(userRequests)
+    res.json(userRequests);
 })
 
 //Used to make user account in the database
@@ -112,13 +109,16 @@ app.post("/login", async(req, res)=>{
 //Used to store incoming user requests
 app.post("/submitUserRequest", async(req, res)=>{
     console.log("Submit User Request Recieved [POST].")
-
+    const user= await UserB.findOne({email: req.body.userId})
     const existingRequest = await UserRequests.findOne({requestId: req.body.requestId})
     if(existingRequest){
         return res.status(400).json({message: "Request ID already exists."})
     }
-    console.log("Submitted user request.")
-    const request=await UserRequests.insertMany([req.body])
+    const completeRequest = {
+        ...req.body,
+        username: user.username
+    }
+    const request=await UserRequests.insertMany(completeRequest)
     res.json({request})
 })
 
@@ -136,4 +136,18 @@ app.put("/editUser/:email", async(req, res)=>{
     const detail=await UserB.findOneAndUpdate({email:req.params.email}, req.body)
     console.log("Updated details of user.[PUT]")
     res.json({edited:'true'})
+})
+
+//Used to accept user requests from driver
+app.put("/acceptRequest/:requestId", async(req, res)=>{
+    console.log("Edit Request Recieved [PUT].")
+    const driver=await Driver.findOne({email: req.body.driverId})
+    const existingRequest = await UserRequests.findOne({requestId: req.params.requestId})
+    const completeRequest = {
+        ...req.body,
+        driver: driver.username
+    }
+    const accepted=await UserRequests.findOneAndUpdate({requestId:req.params.requestId}, completeRequest)
+    console.log("Accepted customer request.[PUT]")
+    res.json({edited: 'true'})
 })

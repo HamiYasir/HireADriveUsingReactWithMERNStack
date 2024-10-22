@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import {Box, Button, Checkbox} from "@mui/material"
+import React, { useState } from 'react'
+import {Box, Button} from "@mui/material"
 import styles from "./requests.module.css"
 import axios from 'axios'
 
@@ -11,13 +11,18 @@ const CustomerRequests=()=>{
     setLocation(event.target.value)
   }
 
-  const check=()=>{
-    console.log(requests)
+  const AcceptRequest=async(requestId)=>{
+    const accepted_status=await axios.put(`http://localhost:4000/acceptRequest/${requestId}`, {driverId:localStorage.getItem('email')})
+  }
+
+  const RejectRequest=async(requestId)=>{
+    
   }
 
   const getRequests=async()=>{
     const requests_status=await axios.get("http://localhost:4000/getUserRequests", {params:{location:location}})
     setRequests(requests_status.data)
+    console.log(requests_status.data)
   }
 
   return (
@@ -41,24 +46,19 @@ const CustomerRequests=()=>{
           <option value="Kasaragod">Kasaragod</option>
         </select>
         <button className={styles.searchButton} onClick={getRequests}>Search</button>
-        <button className={styles.searchButton} onClick={check}>Search</button>
-        {/* <ul>
-            <li><strong>Abhinand T</strong> wants to go from <strong>Annassery</strong> to <strong>Kozhikode</strong><Button color="success" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"312px", marginRight:"10px"}}>&#10003;</Button><Button color="error" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"10px", marginRight:"10px"}}>x</Button></li>
-            <li><strong>User</strong> wants to go from <strong>User Residence</strong> to <strong>Koduvally</strong><Button color="success" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"342px", marginRight:"10px"}}>&#10003;</Button><Button color="error" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"10px", marginRight:"10px"}}>x</Button></li>
-            <li><strong>User</strong> wants to go from <strong>User Residence</strong> to <strong>Koduvally</strong><Button color="success" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"342px", marginRight:"10px"}}>&#10003;</Button><Button color="error" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"10px", marginRight:"10px"}}>x</Button></li>
-            <li><strong>User</strong> wants to go from <strong>User Residence</strong> to <strong>Koduvally</strong><Button color="success" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"342px", marginRight:"10px"}}>&#10003;</Button><Button color="error" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"10px", marginRight:"10px"}}>x</Button></li>
-            <li><strong>User</strong> wants to go from <strong>User Residence</strong> to <strong>Koduvally</strong><Button color="success" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"342px", marginRight:"10px"}}>&#10003;</Button><Button color="error" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"10px", marginRight:"10px"}}>x</Button></li>
-            <li><strong>User</strong> wants to go from <strong>User Residence</strong> to <strong>Koduvally</strong><Button color="success" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"342px", marginRight:"10px"}}>&#10003;</Button><Button color="error" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"10px", marginRight:"10px"}}>x</Button></li>
-            <li><strong>User</strong> wants to go from <strong>User Residence</strong> to <strong>Koduvally</strong><Button color="success" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"342px", marginRight:"10px"}}>&#10003;</Button><Button color="error" variant="contained" sx={{height:"55px", width:"20px", fontSize:"30px", marginLeft:"10px", marginRight:"10px"}}>x</Button></li>
-        </ul> */}
-        <ul>
+
+        <ul style={{marginLeft: "50px"}}>
           {requests.map((request) => (
             <li
-              key={request.userId}
-              style={{backgroundColor: 'rgb(253, 253, 253, 0.700)', width: '37vw', fontFamily: 'sans-serif', listStyle: 'none', borderRadius: '5px', marginLeft: '-1vw', padding: '10px', marginBottom: '10px'}}>
-              <strong>{request.userName}</strong> wants to go from <strong>{request.startLocation}</strong> to <strong>{request.endLocation}</strong>
-              <Button color="success" variant="contained" sx={{ height: "55px", width: "20px", fontSize: "30px", marginLeft: "10px", marginRight: "10px" }}>&#10003;</Button>
-              <Button color="error" variant="contained" sx={{ height: "55px", width: "20px", fontSize: "30px", marginLeft: "10px", marginRight: "10px" }}>x</Button>
+              key={request.requestId}
+              style={{display: "flex", justifyContent: "space-between", backgroundColor: 'rgb(253, 253, 253, 0.700)', width: '100%', fontFamily: 'sans-serif', listStyle: 'none', borderRadius: '5px', marginLeft: '-1vw', padding: '10px', marginBottom: '10px'}}>
+              <div>
+                <strong>{request.username}</strong> wants to go from <strong>{request.startingLocation}</strong> to <strong>{request.destination}</strong>
+              </div>
+              <div>
+                <Button color="success" variant="contained" sx={{ height: "55px", width: "20px", fontSize: "30px", marginLeft: "10px", marginRight: "10px" }} onClick={() => AcceptRequest(request.requestId)}>&#10003;</Button>
+                <Button color="error" variant="contained" sx={{ height: "55px", width: "20px", fontSize: "30px", marginLeft: "10px", marginRight: "10px" }} onClick={() => RejectRequest(request.requestId)}>x</Button>
+              </div>
             </li>
           ))}
         </ul>

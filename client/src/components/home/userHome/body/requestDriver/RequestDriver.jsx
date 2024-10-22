@@ -4,7 +4,6 @@
   import axios from 'axios'
 
   const RequestDriver=()=>{
-    const [requests, setRequests]=useState([])
     const [startingLocation, setStartingLocation]=useState("default")
     const [destination, setDestination]=useState("default")
     const [vehicle, setVehicle]=useState("default")
@@ -18,11 +17,10 @@
       const fetchRequestCount = async () => {
           const response = await axios.get("http://localhost:4000/getRequestCount")
           setTotalRequests(response.data.count)
-          console.log(response)
-      };
+      }
   
       fetchRequestCount();
-    }, []); 
+    }); 
 
     const handleStartingLocation=(event)=>{
       setStartingLocation(event.target.value)
@@ -54,7 +52,7 @@
         return;
       }
       setLoading(true); 
-      const status_submit=await axios.post("http://localhost:4000/submitUserRequest", {requestId:totalRequests+1 ,userId:localStorage.getItem('email'), driverId: "", startingLocation:startingLocation, destination:destination, vehicle:vehicle, driver:driver})
+      const status_submit=await axios.post("http://localhost:4000/submitUserRequest", {requestId:totalRequests+1 ,userId:localStorage.getItem('email'),driverId: "", startingLocation:startingLocation, destination:destination, vehicle:vehicle, driver:driver})
       console.log(status_submit)
       setLoading(false);
       setStartingLocation("")
