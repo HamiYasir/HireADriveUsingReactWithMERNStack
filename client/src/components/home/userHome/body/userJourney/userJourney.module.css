@@ -1,0 +1,36 @@
+.userJourney{
+    display: block;
+    background: url("../../../../../../public/pictures/user_journey_page_background.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.main{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    height: 80vh;
+    width: 100%;
+}
+
+.main>.buttonGroup{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+}
+
+.main>.buttonGroup>button{
+    width: 500px;
+    height: 80px;
+    font-size: xx-large;
+    border-radius: 15px;
+}
+
+.footer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    border-top: 1px solid rgba(200, 200, 200, 0.8);
+    padding: 50px;
+    background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.8));
+}

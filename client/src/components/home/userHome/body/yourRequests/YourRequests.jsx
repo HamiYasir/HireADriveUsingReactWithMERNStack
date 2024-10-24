@@ -2,8 +2,13 @@ import React from "react"
 import {Box, Stack, InputLabel, Select, MenuItem, Paper, Typography} from "@mui/material"
 import styles from "./yourRequests.module.css"
 import image from "../../../../pictures/abhinand_t.jpg"
+import axios from "axios"
 
 const YourRequests=()=>{
+
+  const getAcceptedRequests=async()=>{
+    const accepted_request_status = await axios.get("http://localhost:4000/acceptedUserRequests", {params:{e}})
+  }
   return(
     <Box className={styles.yourRequests}>
       <Stack className={styles.stack}>

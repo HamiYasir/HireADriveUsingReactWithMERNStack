@@ -20,7 +20,7 @@
       }
   
       fetchRequestCount();
-    }); 
+    })
 
     const handleStartingLocation=(event)=>{
       setStartingLocation(event.target.value)

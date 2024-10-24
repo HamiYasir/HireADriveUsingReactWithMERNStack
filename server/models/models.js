@@ -73,8 +73,8 @@ const userRequestsSchema = new mongoose.Schema({
     driverId: {
         type: String
     },
-    driver: {
-        type: String
+    accepted: {
+        type: [String]
     },
     startingLocation: {
         type: String
@@ -84,6 +84,9 @@ const userRequestsSchema = new mongoose.Schema({
     },
     vehicle: {
         type: String
+    },
+    rejected: {
+        type: [String]
     }
 });
 

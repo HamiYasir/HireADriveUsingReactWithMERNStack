@@ -1,22 +1,30 @@
 import React, { useState } from 'react'
 import {Box, Button} from "@mui/material"
+import { useNavigate } from "react-router-dom"
 import styles from "./requests.module.css"
 import axios from 'axios'
 
 const CustomerRequests=()=>{
   const [location, setLocation]=useState("default")
   const [requests, setRequests]=useState([])
+  const navigate=useNavigate()
 
   const handleLocation=(event)=>{
     setLocation(event.target.value)
   }
 
   const AcceptRequest=async(requestId)=>{
-    const accepted_status=await axios.put(`http://localhost:4000/acceptRequest/${requestId}`, {driverId:localStorage.getItem('email')})
+    const accepted_status=await axios.put(`http://localhost:4000/acceptRequest/${requestId}`, {driverId: localStorage.getItem('email')})
+    console.log(accepted_status)
+    await navigate("/driverJourney")
   }
 
   const RejectRequest=async(requestId)=>{
-    
+    const rejected_status=await axios.put(`http://localhost:4000/rejectRequest/${requestId}`, {driverId: localStorage.getItem('email')})    
+    console.log(rejected_status)
+    //To refresh the window
+    if (rejected_status.status === 200)
+      setRequests((prevRequests) => prevRequests.filter(request => request.requestId !== requestId))
   }
 
   const getRequests=async()=>{
@@ -48,19 +56,21 @@ const CustomerRequests=()=>{
         <button className={styles.searchButton} onClick={getRequests}>Search</button>
 
         <ul style={{marginLeft: "50px"}}>
-          {requests.map((request) => (
-            <li
-              key={request.requestId}
-              style={{display: "flex", justifyContent: "space-between", backgroundColor: 'rgb(253, 253, 253, 0.700)', width: '100%', fontFamily: 'sans-serif', listStyle: 'none', borderRadius: '5px', marginLeft: '-1vw', padding: '10px', marginBottom: '10px'}}>
-              <div>
-                <strong>{request.username}</strong> wants to go from <strong>{request.startingLocation}</strong> to <strong>{request.destination}</strong>
-              </div>
-              <div>
-                <Button color="success" variant="contained" sx={{ height: "55px", width: "20px", fontSize: "30px", marginLeft: "10px", marginRight: "10px" }} onClick={() => AcceptRequest(request.requestId)}>&#10003;</Button>
-                <Button color="error" variant="contained" sx={{ height: "55px", width: "20px", fontSize: "30px", marginLeft: "10px", marginRight: "10px" }} onClick={() => RejectRequest(request.requestId)}>x</Button>
-              </div>
-            </li>
-          ))}
+        {requests
+            .filter((request) => !request.rejected?.includes(localStorage.getItem('email')))
+            .map((request) => (
+              <li
+                key={request.requestId}
+                style={{ display: "flex", justifyContent: "space-between", backgroundColor: 'rgb(253, 253, 253, 0.700)', width: '100%', fontFamily: 'sans-serif', listStyle: 'none', borderRadius: '5px', marginLeft: '-1vw', padding: '10px', marginBottom: '10px' }}>
+                <div>
+                  <strong>{request.username}</strong> wants to go from <strong>{request.startingLocation}</strong> to <strong>{request.destination}</strong>
+                </div>
+                <div>
+                  <Button color="success" variant="contained" sx={{ height: "55px", width: "20px", fontSize: "30px", marginLeft: "10px", marginRight: "10px" }} onClick={() => AcceptRequest(request.requestId)}>&#10003;</Button>
+                  <Button color="error" variant="contained" sx={{ height: "55px", width: "20px", fontSize: "30px", marginLeft: "10px", marginRight: "10px" }} onClick={() => RejectRequest(request.requestId)}>x</Button>
+                </div>
+              </li>
+            ))}
         </ul>
       </Box>
     </Box>

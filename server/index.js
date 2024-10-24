@@ -34,7 +34,7 @@ app.get("/getDetails", async(req, res)=>{
 })
 
 //Used to get request count from userRequests table for taskId updation
-app.get('/getRequestCount', async (req, res) => {
+app.get("/getRequestCount", async (req, res) => {
       const count = await UserRequests.countDocuments({});
       res.json({count})
     } 
@@ -46,6 +46,11 @@ app.get("/getUserRequests", async(req, res)=>{
     const userRequests=await UserRequests.find({startingLocation:req.query.location})
     console.log(userRequests)
     res.json(userRequests);
+})
+
+//Used to fetch customer requests that have been accepted by a driver
+app.get("/acceptedUserRequests", async(req, res)=>{
+    console.log("Accepted User Request Fetch Request Recieved[GET].")
 })
 
 //Used to make user account in the database
@@ -119,7 +124,7 @@ app.post("/submitUserRequest", async(req, res)=>{
         username: user.username
     }
     const request=await UserRequests.insertMany(completeRequest)
-    res.json({request})
+    return res.status(200).send({message: "Submitted user request.", request})
 })
 
 //Used to make edits in the driver database
@@ -127,7 +132,7 @@ app.put("/editDriver/:email", async(req, res)=>{
     console.log("Edit Request Recieved [PUT].")
     const detail=await Driver.findOneAndUpdate({email:req.params.email}, req.body)
     console.log("Updated details of driver.[PUT]")
-    res.json({edited:'true'})
+    return res.status(200).send({message: "Driver edited successfully.", detail})
 })
 
 //Used to make edits in the user database
@@ -135,19 +140,35 @@ app.put("/editUser/:email", async(req, res)=>{
     console.log("Edit Request Recieved [PUT].")
     const detail=await UserB.findOneAndUpdate({email:req.params.email}, req.body)
     console.log("Updated details of user.[PUT]")
-    res.json({edited:'true'})
+    return res.status(200).send({message: "User edited successfully.", detail})
 })
 
 //Used to accept user requests from driver
 app.put("/acceptRequest/:requestId", async(req, res)=>{
     console.log("Edit Request Recieved [PUT].")
     const driver=await Driver.findOne({email: req.body.driverId})
-    const existingRequest = await UserRequests.findOne({requestId: req.params.requestId})
     const completeRequest = {
         ...req.body,
         driver: driver.username
     }
-    const accepted=await UserRequests.findOneAndUpdate({requestId:req.params.requestId}, completeRequest)
+    const request=await UserRequests.findOneAndUpdate({requestId:req.params.requestId}, completeRequest)
     console.log("Accepted customer request.[PUT]")
-    res.json({edited: 'true'})
+    return res.status(200).send({message: "Request accepted successfully.", request})
+})
+
+//Used to reject user request from driver
+app.put("/rejectRequest/:requestId", async(req, res)=>{
+    console.log("Edit Request Recieved [PUT].")
+    const request = await UserRequests.findOne({requestId: req.params.requestId})
+
+    if(!request.rejected){
+        request.rejected = req.body.driverId
+    }else{
+        if(!request.rejected.includes(req.body.driverId)){
+            request.rejected.push(req.body.driverId)
+        }
+    }
+    await request.save()
+    console.log("Rejected customer request.[PUT]")
+    return res.status(200).send({message: "Request rejected successfully.", request})
 })
