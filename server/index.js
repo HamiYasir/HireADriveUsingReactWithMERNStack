@@ -51,6 +51,34 @@ app.get("/getUserRequests", async(req, res)=>{
 //Used to fetch customer requests that have been accepted by a driver
 app.get("/acceptedUserRequests", async(req, res)=>{
     console.log("Accepted User Request Fetch Request Recieved[GET].")
+    const acceptedRequests=await UserRequests.find({
+        userId: req.query.email,
+        accepted: {$exists: true, $ne: []}
+    })
+    const driverIds = acceptedRequests.map(request => request.accepted).flat() // Get all accepted driver IDs
+    const drivers = await Driver.find({email: {$in : driverIds}}) // Find all drivers with these IDs
+
+    const driverMap = drivers.reduce((map, driver) => {
+        map[driver.email] = {
+            username: driver.username,
+            email: driver.email,
+            profilePic: driver.profilePic,
+            rating: driver.rating
+        }
+        return map
+    }, {})
+
+    const completeRequest = acceptedRequests.map(request => ({
+        ...request.toObject(), // Convert to plain object
+        driverResponse: request.accepted.map((driverEmail, index) => ({
+            drivername: driverMap[driverEmail]?.username || "",
+            fare: request.fare[index] || null,
+            profilePic: driverMap[driverEmail]?.profilePic || "",
+            rating: driverMap[driverEmail]?.rating || 0, // Default rating to 0 if not found
+            email: driverEmail
+        }))
+    }))
+    return res.status(200).send(completeRequest)
 })
 
 //Used to make user account in the database
@@ -113,18 +141,18 @@ app.post("/login", async(req, res)=>{
 
 //Used to store incoming user requests
 app.post("/submitUserRequest", async(req, res)=>{
-    console.log("Submit User Request Recieved [POST].")
-    const user= await UserB.findOne({email: req.body.userId})
-    const existingRequest = await UserRequests.findOne({requestId: req.body.requestId})
-    if(existingRequest){
-        return res.status(400).json({message: "Request ID already exists."})
-    }
+    console.log("Submit User Request Received [POST].")
+    const user = await UserB.findOne({ email: req.body.userId })
+    const latestRequest = await UserRequests.findOne().sort({ requestId: -1 })
+    const requestId = latestRequest ? latestRequest.requestId + 1 : 1
+
     const completeRequest = {
         ...req.body,
-        username: user.username
+        requestId,
+        username: user.username || "",
     }
-    const request=await UserRequests.insertMany(completeRequest)
-    return res.status(200).send({message: "Submitted user request.", request})
+    const request = await UserRequests.create(completeRequest)
+    return res.status(200).send({ message: "Submitted user request.", request })
 })
 
 //Used to make edits in the driver database
@@ -145,20 +173,26 @@ app.put("/editUser/:email", async(req, res)=>{
 
 //Used to accept user requests from driver
 app.put("/acceptRequest/:requestId", async(req, res)=>{
-    console.log("Edit Request Recieved [PUT].")
-    const driver=await Driver.findOne({email: req.body.driverId})
-    const completeRequest = {
-        ...req.body,
-        driver: driver.username
+    console.log("Accept User Request Recieved [PUT].")
+    const request = await UserRequests.findOne({requestId: req.params.requestId})
+
+    if(!request.accepted){
+        request.accepted = req.body.driverId
+        request.fare = req.body.fare
+    }else{
+        if(!request.accepted.includes(req.body.driverId)){
+            request.accepted.push(req.body.driverId)
+            request.fare.push(req.body.fare)
+        }
     }
-    const request=await UserRequests.findOneAndUpdate({requestId:req.params.requestId}, completeRequest)
+    await request.save()
     console.log("Accepted customer request.[PUT]")
     return res.status(200).send({message: "Request accepted successfully.", request})
 })
 
 //Used to reject user request from driver
 app.put("/rejectRequest/:requestId", async(req, res)=>{
-    console.log("Edit Request Recieved [PUT].")
+    console.log("Reject User Request Recieved [PUT].")
     const request = await UserRequests.findOne({requestId: req.params.requestId})
 
     if(!request.rejected){
@@ -171,4 +205,12 @@ app.put("/rejectRequest/:requestId", async(req, res)=>{
     await request.save()
     console.log("Rejected customer request.[PUT]")
     return res.status(200).send({message: "Request rejected successfully.", request})
+})
+
+//Used to confirm the driver by the user
+app.put("/confirmDriver/:requestId", async(req, res)=>{
+    console.log("Confirm Driver Request Recieved [PUT].")
+    const currentRequest = await UserRequests.findOneAndUpdate({requestId: req.params.requestId}, req.body)
+    console.log("Confirmed customer request [PUT].")
+    return res.status(200).send({message: "User request confirmed successfully.", currentRequest})
 })

@@ -62,7 +62,7 @@ const driverSchema = new mongoose.Schema({
 
 const userRequestsSchema = new mongoose.Schema({
     requestId: {
-        type: Number,
+        type: Number
     },
     userId: {
         type: String
@@ -71,6 +71,9 @@ const userRequestsSchema = new mongoose.Schema({
         type: String
     },
     driverId: {
+        type: String
+    },
+    drivername: {
         type: String
     },
     accepted: {
@@ -87,6 +90,9 @@ const userRequestsSchema = new mongoose.Schema({
     },
     rejected: {
         type: [String]
+    },
+    fare: {
+        type: [Number]
     }
 });
 

@@ -8,7 +8,7 @@ const DriverHeader=({sendTabValueToHome})=>{
   const navigate=useNavigate()
 
   const logout=()=>{
-    localStorage.removeItem("email")
+    localStorage.removeItem('email')
     navigate("/")
   }
 

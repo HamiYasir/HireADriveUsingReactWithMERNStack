@@ -34,7 +34,7 @@
     justify-content: center;
     padding: 20px;
     margin-bottom: -20%;
-    height: 65%;
+    height: 75%;
     border-radius: 20px;
 }
 
@@ -60,6 +60,8 @@
     text-decoration: none;
 }
 
-.star:hover{
-    color: gold;
+.row3{
+    display: flex;
+    justify-content: center;
+    padding-bottom: 50px;
 }

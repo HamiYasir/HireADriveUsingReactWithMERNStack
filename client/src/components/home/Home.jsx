@@ -12,7 +12,7 @@ import UserPayments from "./userHome/body/userPayments/UserPayments.jsx"
 
 import DriverHeader from "./driverHome/header/DriverHeader.jsx"
 import DriverSidebar from "./driverHome/sidebar/DriverSidebar.jsx"
-import Requests from "./driverHome/body/requests/Requests.jsx"
+import CustomerRequests from "./driverHome/body/customerRequests/CustomerRequests.jsx"
 import YourJourneys from "./driverHome/body/yourJourneys/YourJourneys.jsx"
 import DriverProfile from "./driverHome/body/yourProfile/DriverProfile.jsx"
 
@@ -82,7 +82,7 @@ const Home=()=>{
 
         <div className={styles.bodyContainer}>
           {tab===1?
-            <Requests/>
+            <CustomerRequests/>
           :tab===2?
             <YourJourneys/>
           :tab===3?

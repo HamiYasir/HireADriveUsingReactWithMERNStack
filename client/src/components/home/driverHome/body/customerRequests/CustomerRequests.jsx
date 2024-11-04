@@ -1,28 +1,30 @@
 import React, { useState } from 'react'
 import {Box, Button} from "@mui/material"
 import { useNavigate } from "react-router-dom"
-import styles from "./requests.module.css"
+import styles from "./customerRequests.module.css"
 import axios from 'axios'
 
 const CustomerRequests=()=>{
   const [location, setLocation]=useState("default")
   const [requests, setRequests]=useState([])
-  const navigate=useNavigate()
 
   const handleLocation=(event)=>{
     setLocation(event.target.value)
   }
 
   const AcceptRequest=async(requestId)=>{
-    const accepted_status=await axios.put(`http://localhost:4000/acceptRequest/${requestId}`, {driverId: localStorage.getItem('email')})
+    const enteredFare = prompt("Enter the fare: ")
+    if (isNaN(enteredFare) || enteredFare <= 0) {
+      alert("Please enter a valid fare amount.")
+      return
+    }
+    const accepted_status=await axios.put(`http://localhost:4000/acceptRequest/${requestId}`, {driverId: localStorage.getItem('email'), fare: enteredFare})
     console.log(accepted_status)
-    await navigate("/driverJourney")
   }
 
   const RejectRequest=async(requestId)=>{
     const rejected_status=await axios.put(`http://localhost:4000/rejectRequest/${requestId}`, {driverId: localStorage.getItem('email')})    
     console.log(rejected_status)
-    //To refresh the window
     if (rejected_status.status === 200)
       setRequests((prevRequests) => prevRequests.filter(request => request.requestId !== requestId))
   }

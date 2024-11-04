@@ -15,11 +15,11 @@
     
     useEffect(() => {
       const fetchRequestCount = async () => {
-          const response = await axios.get("http://localhost:4000/getRequestCount")
+          const response = await axios.get("http://localhost:4000/getRequestCount", {params: {email: localStorage.getItem('email')}})
           setTotalRequests(response.data.count)
       }
   
-      fetchRequestCount();
+      fetchRequestCount()
     })
 
     const handleStartingLocation=(event)=>{
@@ -52,7 +52,7 @@
         return;
       }
       setLoading(true); 
-      const status_submit=await axios.post("http://localhost:4000/submitUserRequest", {requestId:totalRequests+1 ,userId:localStorage.getItem('email'),driverId: "", startingLocation:startingLocation, destination:destination, vehicle:vehicle, driver:driver})
+      const status_submit=await axios.post("http://localhost:4000/submitUserRequest", {requestId:totalRequests ,userId:localStorage.getItem('email'),driverId: "", startingLocation:startingLocation, destination:destination, vehicle:vehicle, driver:driver})
       console.log(status_submit)
       setLoading(false);
       setStartingLocation("")
