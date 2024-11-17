@@ -57,6 +57,9 @@ const driverSchema = new mongoose.Schema({
     },
     rating: {
         type: Number
+    },
+    isBooked: {
+        type: Boolean 
     }
 });
 
@@ -93,6 +96,9 @@ const userRequestsSchema = new mongoose.Schema({
     },
     fare: {
         type: [Number]
+    },
+    confirmedFare: {
+        type: Number
     }
 });
 

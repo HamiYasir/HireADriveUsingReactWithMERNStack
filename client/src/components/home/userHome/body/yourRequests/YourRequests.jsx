@@ -3,6 +3,7 @@ import {Box, Stack, InputLabel, Select, MenuItem, Paper, Typography, Button} fro
 import styles from "./yourRequests.module.css"
 import image from "../../../../pictures/default_profile_pic_1.jpeg"
 import axios from "axios"
+import {useNavigate} from "react-router-dom"
 
 const YourRequests=()=>{
   const [currentRequestId, setCurrentRequestId]=useState()
@@ -12,10 +13,12 @@ const YourRequests=()=>{
   const [selectedFare, setSelectedFare]=useState("")
   const [selectedProfilePic, setSelectedProfilePic]=useState("")
   const [selectedRating, setSelectedRating]=useState(0)
+  const navigate=useNavigate()
 
   useEffect(()=>{
     const getAcceptedRequests=async()=>{
-      const accepted_request_status = await axios.get("http://localhost:4000/acceptedUserRequests", {params:{email: localStorage.getItem('email')}})
+      const accepted_request_status = await axios.get("http://localhost:4000/acceptedUserRequests", {params: {email: localStorage.getItem('email')}})
+      console.log("accepted request status="+accepted_request_status.data)
       setAcceptedRequests(accepted_request_status.data)
       setCurrentRequestId(accepted_request_status.data[0].requestId)
     }
@@ -43,8 +46,14 @@ const YourRequests=()=>{
   }
 
   const confirmDriver=async()=>{
-    const confirm_driver_status = await axios.put(`http://localhost:4000/confirmDriver/${currentRequestId}`, {driverId: selectedEmail, drivername: selectedDriver})
+    const confirm_driver_status = await axios.put(`http://localhost:4000/confirmDriver/${currentRequestId}`, {driverId: selectedEmail, drivername: selectedDriver, confirmedFare: selectedFare})
     console.log("confirm_driver_status="+confirm_driver_status)
+    navigate("/userJourney", {state: {userId: localStorage.getItem('email'), driverId: selectedEmail}}) 
+    setSelectedDriver("")
+    setSelectedFare(null)
+    setSelectedEmail("")
+    setSelectedProfilePic("")
+    setSelectedRating(0)
   }
 
   return(
@@ -74,7 +83,7 @@ const YourRequests=()=>{
                 ))}
               </div>
               <div className={styles.row3}>
-                <Button variant="contained" color="success" style={{fontSize: "25px", marginTop: "-20px", marginBottom: "20px"}} onClick={confirmDriver}>Confirm Driver</Button>
+                <Button variant="contained" color="success" style={{fontSize: "25px", marginTop: "-50px", marginBottom: "20px"}} onClick={confirmDriver}>Confirm Driver</Button>
               </div>
           </Paper>
       </Stack>

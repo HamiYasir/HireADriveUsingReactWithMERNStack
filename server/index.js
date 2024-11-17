@@ -18,19 +18,36 @@ const connect=async()=>{
 
 connect()
 
+//Used to check if a driver is assigned to any request and if it is, sets the status "isBooked" to true
+const setDriverAvailability=async()=>{
+    const userRequests=await UserRequests.find({driverId: { $exists: true, $ne: null}}) //Returns a collection of UserRequests whose "driverId" field has some value
+    const assignedDriverIds=userRequests.map(request=>request.driverId) //Map the collection into a map
+    if(assignedDriverIds.length > 0)
+        await Driver.updateOne({ email: { $in: assignedDriverIds } }, { $set: { isBooked: true } }) //The drivers who have the same email as the email in"driverId" will be set to true
+
+    await Driver.updateMany({ email: { $nin: assignedDriverIds} }, { $set: { isBooked: false } }) //The drivers who are not returned in assignedDriverIds "isBooked" is set to false
+}
+setInterval(setDriverAvailability, 5000)
+
 //Used to get details from both user and driver database
 app.get("/getDetails", async(req, res)=>{
     console.log("Get Details Request Recieved [GET].")
     const userDetails=await UserB.findOne({email:req.query.email}) 
     const driverDetails=await Driver.findOne({email:req.query.email})
-    if(userDetails){
+    if(userDetails)
         res.json({type:"user", details:userDetails})
-        console.log("user triggered.")
-    }
-    if(driverDetails){
+    if(driverDetails)
         res.json({type:"driver", details:driverDetails})
-        console.log("driver triggered.")
-    }
+})
+
+//Used to check if the user has sent a request that is waiting for driver approval
+app.get("/userRequestApprovalStatus", async(req, res)=>{
+    console.log("Get User Request Approval Status [GET].")
+    const active_status=await UserRequests.find({userId: req.query.email})
+    if(active_status.length > 0)
+        return res.status(200).json({active: true})
+    else
+        return res.status(200).send({active: false})
 })
 
 //Used to get request count from userRequests table for taskId updation
@@ -44,8 +61,7 @@ app.get("/getRequestCount", async (req, res) => {
 app.get("/getUserRequests", async(req, res)=>{
     console.log("Get Details Request Recieved [GET].")
     const userRequests=await UserRequests.find({startingLocation:req.query.location})
-    console.log(userRequests)
-    res.json(userRequests);
+    res.json(userRequests)
 })
 
 //Used to fetch customer requests that have been accepted by a driver
@@ -56,7 +72,7 @@ app.get("/acceptedUserRequests", async(req, res)=>{
         accepted: {$exists: true, $ne: []}
     })
     const driverIds = acceptedRequests.map(request => request.accepted).flat() // Get all accepted driver IDs
-    const drivers = await Driver.find({email: {$in : driverIds}}) // Find all drivers with these IDs
+    const drivers = await Driver.find({email: {$in : driverIds}, isBooked: false}) // Find all drivers with these IDs
 
     const driverMap = drivers.reduce((map, driver) => {
         map[driver.email] = {
@@ -79,6 +95,36 @@ app.get("/acceptedUserRequests", async(req, res)=>{
         }))
     }))
     return res.status(200).send(completeRequest)
+})
+
+//Used to get requests that have been confirmed for a journey. This is acccesed by the driver.
+app.get("/approvedUserRequests", async(req, res)=>{
+    console.log("Get Approved User Request Status [GET].")
+    const active_status=await UserRequests.find({driverId: req.query.email})
+    if(active_status.length > 0)
+        return res.status(200).json({active: true})
+    else
+        return res.status(200).send({active: false})
+})
+
+//Used to get user requests that have been set by inputting userId
+app.get("/getValidatedUserRequestFromUser", async(req, res)=>{
+    console.log("Get Validated User Request By User [GET].")
+    const validatedUserRequest=await UserRequests.findOne({userId: req.query.userId, driverId: { $exists: true, $ne: null, $ne: ''}})
+    if(validatedUserRequest != null)
+        return res.status(200).send({validatedUserRequest,isValid:true}) 
+    else
+        return res.status(200).send({validatedUserRequest,isValid:false})
+})
+
+//Used to get user requests that have been set by inputting driverId
+app.get("/getValidatedUserRequestFromDriver", async(req, res)=>{
+    console.log("Get Validated User Request By Driver [GET].")
+    const validatedUserRequest=await UserRequests.findOne({driverId: req.query.driverId, userId: { $exists: true, $ne: null, $ne: ''}})
+    if(validatedUserRequest != null)
+        return res.status(200).send({validatedUserRequest,isValid:true}) 
+    else
+        return res.status(200).send({validatedUserRequest,isValid:false})
 })
 
 //Used to make user account in the database
@@ -213,4 +259,11 @@ app.put("/confirmDriver/:requestId", async(req, res)=>{
     const currentRequest = await UserRequests.findOneAndUpdate({requestId: req.params.requestId}, req.body)
     console.log("Confirmed customer request [PUT].")
     return res.status(200).send({message: "User request confirmed successfully.", currentRequest})
+})
+
+//Used to delete user requests by inputting userId and driverId
+app.delete("/deleteUserRequest/:userId/:driverId", async(req, res)=>{
+    console.log("Delete User Request Recieved [DELETE].")
+    await UserRequests.findOneAndDelete({userId: req.params.userId, driverId: req.params.driverId})
+    return res.status(200).send({message: "User request deleted successfully."})
 })

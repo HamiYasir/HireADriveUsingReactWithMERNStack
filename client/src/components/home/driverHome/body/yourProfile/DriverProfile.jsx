@@ -12,6 +12,7 @@ const DriverProfile=()=>{
   const [error, setError]=useState("")
   const [region, setRegion]=useState("")
   const [address, setAddress]=useState("")
+  const [rating, setRating]=useState(0)
   const [profileURL, setProfileURL]=useState("")
   const [imageURL, setImageURL]=useState()
   const [selectedFile, setSelectedFile]=useState(null)
@@ -23,6 +24,8 @@ const DriverProfile=()=>{
   const GetDetails=async()=>{
     const result=await axios.get("http://localhost:4000/getDetails", {params:{email:localStorage.getItem('email')}})
     setDetails(result.data.details)
+    setRating(result.data.details.rating)
+    console.log(rating)
   }
 
   const ExtractDateComponents=(dateOfJoining)=>{
@@ -80,7 +83,6 @@ const DriverProfile=()=>{
   const changeProfilePic=async(event)=>{
     const profilePic=await uploadImageAndDownloadURL()
     const status_pfp=await axios.put(`http://localhost:4000/editDriver/${localStorage.getItem('email')}`, {profilePic:profilePic})
-    console.log(status_pfp)
     window.location.reload()
   }
 
@@ -90,7 +92,6 @@ const DriverProfile=()=>{
       if(password===confirmPassword)
       {
         const status_password=await axios.put(`http://localhost:4000/editDriver/${localStorage.getItem('email')}`, {password:password})
-        console.log(status_password)
         setPassword()
         setConfirmPassword()
         setError()
@@ -104,13 +105,11 @@ const DriverProfile=()=>{
 
   const changeRegion=async()=>{
     const status_region=await axios.put(`http://localhost:4000/editDriver/${localStorage.getItem('email')}`, {district:region})
-    console.log(status_region)
     setRegion()
   }
 
   const changeAddress=async()=>{
     const status_address=await axios.put(`http://localhost:4000/editDriver/${localStorage.getItem('email')}`, {address:address})
-    console.log(status_address)
     setAddress()
   }
 
@@ -122,8 +121,10 @@ const DriverProfile=()=>{
           <div style={{display:"flex",flexDirection:"row",height:"90%",paddingTop:"2%"}}>
             <Paper sx={{display:"flex",flexDirection:"column",justifyContent:"flex-start",alignItems:"center",height:"100%",width:"33.3%",padding:"10px 20px",marginRight:"5px",borderRadius:"20px",boxShadow:"2px 2px 10px black"}}>
               <img src={details.profilePic} alt="profile pic" style={{maxHeight:"75%",maxWidth:"75%",borderRadius:"50%",marginBottom:"5%",border:"2px ridge black"}}/>
-              <div style={{backgroundColor:"rgb(200,200,200)",borderRadius:"20px",boxShadow:"2px 2px 5px black"}}>
-                <p style={{color:"gold",fontSize:"75px",marginTop:"-5%",marginBottom:"15px"}}>&#9734;&#9734;&#9734;&#9734;&#9734;</p>
+              <div style={{backgroundColor:"rgb(200,200,200)",borderRadius:"20px",boxShadow:"2px 2px 5px black",width:"425px"}}>
+                {[...Array(5)].map((_, index) => (
+                  <span key={index} className={styles.star} style={{color: index <rating ? "gold" : "grey"}}>&#9734;</span>
+                ))}
               </div>
               <div style={{display:"flex", justifyContent: "center"}}>
                 <Button variant="contained" color="success" onClick={changeProfilePic} sx={{marginTop:"2%",borderRadius:"5px", height:"70%", width:"90%", marginRight:"1%"}}>Change Picture</Button><label htmlFor="profilePicUpload" style={{padding:"5px 5px 5px 5px", fontSize:"15px",backgroundColor:"#1976D2", color:"white", marginTop:"2%", borderRadius:"5px", height:"60%", width:"60%", marginLeft:"1%", textAlign:"center"}}>FILE UPLOAD<input id="profilePicUpload" type="file" onChange={handleProfilePic} style={{display:"none"}}/></label>

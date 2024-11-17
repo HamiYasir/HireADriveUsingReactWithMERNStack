@@ -9,6 +9,7 @@ const UserSidebar=()=>{
   const [email, setEmail]=useState("")
   const [today, setToday]=useState(null)
   const [address, setAddress]=useState("")
+  const [currentStatus, setCurrentStatus]=useState(false)
 
   useEffect(()=>{
     setEmail(localStorage.getItem("email"))
@@ -18,8 +19,18 @@ const UserSidebar=()=>{
       setToday(date);
     }
 
+    const getAcceptedRequests=async()=>{
+      const accepted_request_status = await axios.get("http://localhost:4000/acceptedUserRequests", {params:{email: localStorage.getItem('email')}})
+      console.log("accepted_request_status="+accepted_request_status.data)
+      if(accepted_request_status.data.length > 0)
+        setCurrentStatus(true)
+      else
+        setCurrentStatus(false)
+    }
+
     // Fetch initial date and start interval for updates
     fetchDate()
+    getAcceptedRequests()
     const intervalId = setInterval(fetchDate, 5000) // Update every minute
     return () => clearInterval(intervalId) // Clear interval on component unmount
   },[])
@@ -64,7 +75,7 @@ const UserSidebar=()=>{
 
         <Box className={styles.address}>{address}</Box>
 
-        <Box className={styles.currentStatus}>Current Status</Box>
+        <Box sx={{backgroundColor: currentStatus ? "rgba(17, 179, 87, 1)" : "rgba(255, 8, 8)"}} className={styles.currentStatus}>Current Status</Box>
       </Paper>
     </Box>
   )

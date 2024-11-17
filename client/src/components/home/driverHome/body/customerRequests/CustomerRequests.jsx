@@ -19,20 +19,26 @@ const CustomerRequests=()=>{
       return
     }
     const accepted_status=await axios.put(`http://localhost:4000/acceptRequest/${requestId}`, {driverId: localStorage.getItem('email'), fare: enteredFare})
-    console.log(accepted_status)
+    console.log("accepted_status="+accepted_status.data.request)
+    if (accepted_status.status === 200)
+      setRequests((prevRequests) => prevRequests.filter(request => request.requestId !== requestId))
   }
 
   const RejectRequest=async(requestId)=>{
     const rejected_status=await axios.put(`http://localhost:4000/rejectRequest/${requestId}`, {driverId: localStorage.getItem('email')})    
-    console.log(rejected_status)
+    console.log("rejected_status="+rejected_status)
     if (rejected_status.status === 200)
       setRequests((prevRequests) => prevRequests.filter(request => request.requestId !== requestId))
   }
 
   const getRequests=async()=>{
     const requests_status=await axios.get("http://localhost:4000/getUserRequests", {params:{location:location}})
-    setRequests(requests_status.data)
-    console.log(requests_status.data)
+    const filteredRequests = requests_status.data.filter(request => {
+      const alreadyAcceptedByDriverRequest=!request.accepted?.includes(localStorage.getItem('email')) //Used to filter out already accepted requests by this driver
+      const onGoingRequests=!request.driverId && request.userId
+      return alreadyAcceptedByDriverRequest && onGoingRequests
+    }) 
+    setRequests(filteredRequests)
   }
 
   return (

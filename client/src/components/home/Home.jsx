@@ -1,4 +1,5 @@
 import React,{useEffect, useState} from "react"
+import {useNavigate} from "react-router-dom"
 import styles from "./home.module.css"
 import axios from "axios"
 
@@ -18,85 +19,104 @@ import DriverProfile from "./driverHome/body/yourProfile/DriverProfile.jsx"
 
 const Home=()=>{
   const [email, setEmail]=useState("")
-  const [tab, setTab]=useState(1)
-  const [homePageMode, setHomePageMode]=useState()
+  const [tab, setTab]=useState(3)
+  const navigate=useNavigate()
+  const [homePageMode, setHomePageMode]=useState(null)
+  const [isUserRequestValidatedFromUser, setIsUserRequestValidatedFromUser]=useState({isValid:null})
+  const [isUserRequestValidatedFromDriver, setIsUserRequestValidatedFromDriver]=useState({isValid:null})
 
   useEffect(()=>{
-    const getHomePageMode=async()=>{
-      const details=await axios.get("http://localhost:4000/getDetails",{params:{email:email}})
-      setHomePageMode(details.data.type)
-    }  
+    const initialize=async()=>{
+      const getHomePageMode=async()=>{
+        const details=await axios.get("http://localhost:4000/getDetails",{params:{email:email}})
+        setHomePageMode(details.data.type)
+      }  
 
-    setEmail(localStorage.getItem("email"))
-    getHomePageMode()
-  },[email])
+      setEmail(localStorage.getItem("email"))
+      await getHomePageMode()
+      if(homePageMode==="user"){
+        const validatedUserRequestFromUser=await axios.get("http://localhost:4000/getValidatedUserRequestFromUser",{params:{userId: localStorage.getItem('email')}})
+        setIsUserRequestValidatedFromUser(validatedUserRequestFromUser.data)
+        if (validatedUserRequestFromUser.data.isValid)
+          navigate("/userJourney", {state: {userId: validatedUserRequestFromUser.data.validatedUserRequest.userId, driverId: validatedUserRequestFromUser.data.validatedUserRequest.driverId}})
+      }
+      else{
+        const validatedUserRequestFromDriver=await axios.get("http://localhost:4000/getValidatedUserRequestFromDriver",{params:{driverId: localStorage.getItem('email')}})
+        setIsUserRequestValidatedFromDriver(validatedUserRequestFromDriver.data)
+        if (validatedUserRequestFromDriver.data.isValid)
+          navigate("/driverJourney", {state: {userId: validatedUserRequestFromDriver.data.validatedUserRequest.userId, driverId: validatedUserRequestFromDriver.data.validatedUserRequest.driverId}})
+      }
+    }
+
+    initialize()
+  },[email, homePageMode, navigate])
 
   const receiveTabValueFromHeader=(value)=>{
     setTab(value)
   }
 
-  
   return(
     (homePageMode==="user"?
-    <div className={styles.homePageUser}>
-      <div className={styles.headerContainer}>
-          <UserHeader sendTabValueToHome={receiveTabValueFromHeader}/>
-      </div>
-
-      <div className={styles.mainContainer}>
-        <div className={styles.sidebarContainer}>
-          <UserSidebar/>
+      <div className={styles.homePageUser}>
+        <div className={styles.headerContainer}>
+            <UserHeader sendTabValueToHome={receiveTabValueFromHeader}/>
         </div>
 
-        <div className={styles.bodyContainer}>
-          {tab===1?
-            <RequestDriver/>
-          :tab===2?
-            <YourRequests/>
-          :tab===3?
-            <YourDrivers/>
-          :tab===4?
-            <UserProfile/>
-          :tab===5?
-            <UserPayments/>
-          :
-            setTab(1)
-          } 
+        <div className={styles.mainContainer}>
+          <div className={styles.sidebarContainer}>
+            <UserSidebar/>
+          </div>
+
+          <div className={styles.bodyContainer}>
+            {tab===1?
+              <RequestDriver/>
+            :tab===2?
+              <YourRequests/>
+            :tab===3?
+              <UserProfile/>
+            :tab===4?
+              <YourDrivers/>
+            :tab===5?
+              <UserPayments/>    
+            :
+              setTab(1)
+            } 
+          </div>
+        </div>
+
+        <div className={styles.footerContainer}>
+          
         </div>
       </div>
-
-      <div className={styles.footerContainer}>
-        
-      </div>
-    </div>
     :
-    <div className={styles.homePageDriver}>
-      <div className={styles.headerContainer}>
-        <DriverHeader sendTabValueToHome={receiveTabValueFromHeader}/>
-      </div>
-
-      <div className={styles.mainContainer}>
-        <div className={styles.sidebarContainer}>
-          <DriverSidebar/>
+      <div className={styles.homePageDriver}>
+        <div className={styles.headerContainer}>
+          <DriverHeader sendTabValueToHome={receiveTabValueFromHeader}/>
         </div>
 
-        <div className={styles.bodyContainer}>
-          {tab===1?
-            <CustomerRequests/>
-          :tab===2?
-            <YourJourneys/>
-          :tab===3?
-            <DriverProfile/>
-          :
-            setTab(1)
-          }
+        <div className={styles.mainContainer}>
+          <div className={styles.sidebarContainer}>
+            <DriverSidebar/>
+          </div>
+
+          <div className={styles.bodyContainer}>
+            {tab===1?
+              <CustomerRequests/>
+            :tab===2?
+              <YourJourneys/>
+            :tab===3?
+              <DriverProfile/>
+            :
+              setTab(1)
+            }
+          </div>
+        </div>
+
+        <div className={styles.footerContainer}>
+          
         </div>
       </div>
-
-      <div className={styles.footerContainer}>
-        
-      </div>
-    </div>)
+    )
   )
 }
 

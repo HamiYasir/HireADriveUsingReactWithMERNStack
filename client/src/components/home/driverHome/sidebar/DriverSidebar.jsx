@@ -9,6 +9,7 @@ const DriverSidebar=()=>{
   const [email, setEmail]=useState("")
   const [today, setToday]=useState(null)
   const [address, setAddress]=useState("")
+  const [currentDriverStatus, setCurrentDriverStatus]=useState(false)
 
   useEffect(()=>{
     setEmail(localStorage.getItem("email"))
@@ -18,8 +19,17 @@ const DriverSidebar=()=>{
       setToday(date);
   }
 
+  const getApprovedRequests=async()=>{
+    const accepted_request_status = await axios.get("http://localhost:4000/approvedUserRequests", {params:{email: localStorage.getItem('email')}})
+    if(accepted_request_status.data.active === true)
+      setCurrentDriverStatus(true)
+    else if(accepted_request_status.data.active === false)
+      setCurrentDriverStatus(false)
+  }
+
   // Fetch initial date and start interval for updates
   fetchDate()
+  getApprovedRequests()
   const intervalId = setInterval(fetchDate, 5000) // Update every minute
   return () => clearInterval(intervalId) // Clear interval on component unmount
   },[])
@@ -64,7 +74,7 @@ const DriverSidebar=()=>{
 
         <Box className={styles.address}>{address}</Box>
 
-        <Box className={styles.currentStatus}>Current Status</Box>
+        <Box sx={{backgroundColor: currentDriverStatus ? "rgba(17, 179, 87, 1)" : "rgba(255, 8, 8)"}} className={styles.currentStatus}>Current Status</Box>
       </Paper>
     </Box>
   )

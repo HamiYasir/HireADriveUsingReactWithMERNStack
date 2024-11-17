@@ -4,7 +4,7 @@ import styles from "./driverHeader.module.css"
 import {useNavigate} from "react-router-dom"
 
 const DriverHeader=({sendTabValueToHome})=>{
-  const [tab, setTab]=useState(1)
+  const [tab, setTab]=useState(3)
   const navigate=useNavigate()
 
   const logout=()=>{

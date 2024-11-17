@@ -194,3 +194,12 @@
 
     margin-right: -3%;
 }
+
+.star{
+    font-size: 75px;
+    color: rgb(75, 75, 74);
+    margin: 10px;   
+    text-decoration: none;
+    margin-top: -5%;
+    margin-bottom: 15px;
+}

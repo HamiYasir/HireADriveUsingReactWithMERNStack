@@ -9,18 +9,28 @@
     const [vehicle, setVehicle]=useState("default")
     const [driver, setDriver]=useState("random")
     const [yourDriver, setYourDriver]=useState(false)
-    const [loading, setLoading] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [totalRequests, setTotalRequests] = useState(0);
+    const [loading, setLoading]=useState(false);
+    const [errorMessage, setErrorMessage]=useState("")
+    const [totalRequests, setTotalRequests]=useState(0)
+    const [requestPending, setRequestPending]=useState()
     
     useEffect(() => {
-      const fetchRequestCount = async () => {
-          const response = await axios.get("http://localhost:4000/getRequestCount", {params: {email: localStorage.getItem('email')}})
-          setTotalRequests(response.data.count)
+      const fetchRequestCount=async()=>{
+        const response = await axios.get("http://localhost:4000/getRequestCount", {params: {email: localStorage.getItem('email')}})
+        setTotalRequests(response.data.count)
       }
-  
+
+      const getUserRequestApprovalStatus=async()=>{
+        const user_request_status = await axios.get("http://localhost:4000/userRequestApprovalStatus", {params: {email: localStorage.getItem('email')}})
+        if(user_request_status.data.active === true)
+          setRequestPending(true)
+        else if(user_request_status.data.active === false)
+          setRequestPending(false)
+      }
+      
+      getUserRequestApprovalStatus()
       fetchRequestCount()
-    })
+    }, [])
 
     const handleStartingLocation=(event)=>{
       setStartingLocation(event.target.value)
@@ -59,9 +69,16 @@
       setDestination("")
       setVehicle("default")
       setDriver("random")
+      setRequestPending(true)
     }
 
-    return (
+    return requestPending?(
+      <Box className={styles.requestDriver}>
+        <div style={{display: "flex", justifyContent: "center", fontSize: "30px"}}>
+          <h1>Awaiting Driver Approval...</h1>
+        </div>
+      </Box>
+    ):(
       <Box className={styles.requestDriver}>
         <Stack>
           <p></p>

@@ -5,25 +5,36 @@
     background-repeat: no-repeat;
 }
 
-.main{
+.header{
     display: flex;
     justify-content: center;
     flex-direction: row;
-    height: 80vh;
+    height: 20vh;
     width: 100%;
 }
 
-.main>.buttonGroup{
+.main{
     display: flex;
-    justify-content: space-evenly;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: center;
+    height: 60vh;
+    width: 100%;
+    font-size: 50px;
 }
 
-.main>.buttonGroup>button{
-    width: 500px;
-    height: 80px;
-    font-size: xx-large;
-    border-radius: 15px;
+table{
+    background-color: rgba(255, 255, 255, 0.7);
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+table>tr,th,td{
+    padding: 10px 100px;
+    border: none;
+}
+
+table>tr{
+    text-align: left;
 }
 
 .footer{
