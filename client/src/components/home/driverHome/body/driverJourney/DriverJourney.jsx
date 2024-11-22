@@ -30,7 +30,7 @@ const DriverJourney=()=>{
         const getValidatedUserRequestsForDrivers=async()=>{
             const validatedUserRequestFromDriver=await axios.get("http://localhost:4000/getValidatedUserRequestFromDriver",{params:{driverId: localStorage.getItem('email')}})
             setIsUserRequestValidatedFromDriver(validatedUserRequestFromDriver.data.isValid)
-            setFare(validatedUserRequestFromDriver.data.validatedUserRequest.fare)
+            setFare(validatedUserRequestFromDriver.data.validatedUserRequest.confirmedFare)
             setPickUp(validatedUserRequestFromDriver.data.validatedUserRequest.startingLocation)
             setDestination(validatedUserRequestFromDriver.data.validatedUserRequest.destination)
         }

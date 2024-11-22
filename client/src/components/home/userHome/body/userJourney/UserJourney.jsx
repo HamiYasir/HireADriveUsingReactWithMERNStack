@@ -30,7 +30,7 @@ const UserJourney=()=>{
         const getValidatedUserRequestsForUsers=async()=>{
             const validatedUserRequestFromUser=await axios.get("http://localhost:4000/getValidatedUserRequestFromUser",{params:{userId: localStorage.getItem('email')}})
             setIsUserRequestValidatedFromUser(validatedUserRequestFromUser.data.isValid)
-            setFare(validatedUserRequestFromUser.data.validatedUserRequest.fare)
+            setFare(validatedUserRequestFromUser.data.validatedUserRequest.confirmedFare)
             setPickUp(validatedUserRequestFromUser.data.validatedUserRequest.startingLocation)
             setDestination(validatedUserRequestFromUser.data.validatedUserRequest.destination)
         }
