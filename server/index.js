@@ -12,7 +12,7 @@ app.listen(4000, ()=>{
 })
 
 const connect=async()=>{
-    await mongoose.connect("mongodb+srv://HamiYasir:hamihami@hamicluster01.e8thkdr.mongodb.net/?retryWrites=true&w=majority")
+    await mongoose.connect("mongodb+srv://HamiYasir:hamihami@hamicluster01.e8thkdr.mongodb.net/?retryWrites=true&w=majority&appName=HamiCluster01")
     console.log("Database connected.")
 }
 
